@@ -23,7 +23,9 @@ public class ScannerEx01 {
 		System.out.print("문자열(단어)를 입력하세요 : ");
 		String str1 = scan.next(); //콘솔에서 공백(엔터, 스페이스 등) 전까지 문자열을 가져옴
 		System.out.println("단어 : " + str1);
+		
 		scan.nextLine(); // 앞에서 입력한 엔터를 비워 줌
+		
 		System.out.print("문자열(문장)을 입력하세요 : ");
 		String str2 = scan.nextLine(); //엔터까지 한 문장을 가져와서 엔터 전까지 저장 함
 		System.out.println(str2);
