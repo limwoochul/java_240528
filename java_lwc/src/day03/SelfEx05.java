@@ -12,7 +12,8 @@ public class SelfEx05 {
 		name = pname;
 	}
 	
-	public SelfEx05(float pheight, float pweight) {
+	public SelfEx05(String pname, float pheight, float pweight) {
+		name = pname;
 		height = pheight;
 		weight = pweight;
 	}

@@ -2,7 +2,7 @@ package day03;
 
 import java.util.Scanner;
 
-public class IfExam03 {
+public class NestedIfEx02 {
 
 	public static void main(String[] args) {
 		
@@ -29,13 +29,25 @@ public class IfExam03 {
 			result = num1 * num2;
 			System.out.println("" + num1 + " " + ch + " " + num2 + " = " + (int)result);
 		}
+		//num2가 0이면 0으로 나눌 수 없습니다 라고 출력
 		else if(ch == '/') {
-			result = (double)num1 / num2;
-			System.out.println("" + num1 + " " + ch + " " + num2 + " = " + result);
+			if(num2 != 0) {
+				result = (double)num1 / num2;
+				System.out.println("" + num1 + " " + ch + " " + num2 + " = " + result);
+			}
+			else {
+				System.out.println("0으로 나눌 수 없습니다.");
+			}
 		}
+		//num2가 0이면 0으로 나눌 수 없습니다 라고 출력
 		else if(ch == '%') {
-			result = num1 % num2;
-			System.out.println("" + num1 + " " + ch + " " + num2 + " = " + (int)result);
+			if(num2 != 0) {
+				result = num1 % num2;
+				System.out.println("" + num1 + " " + ch + " " + num2 + " = " + (int)result);
+			}
+			else {
+				System.out.println("0으로 나눌 수 없습니다.");
+			}
 		}
 		else {
 			System.out.println("잘못된 입력입니다.");
