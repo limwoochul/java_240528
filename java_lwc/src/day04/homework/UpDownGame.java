@@ -23,8 +23,9 @@ public class UpDownGame {
 		
 		System.out.println("숫자 맞추기 게임(1부터 100까지)");
 		Scanner scan = new Scanner(System.in);
-		int i = 0;
-		while(random != i){
+		int i;
+		
+		do {
 			System.out.print("정수 입력 : ");
 			i = scan.nextInt();
 			if(i < random && i>=1) {
@@ -38,8 +39,8 @@ public class UpDownGame {
 			}
 			else {
 				System.out.println("잘못된 입력입니다.");
-			}
-		}
+			}		
+		}while(random != i);
 	}
 
 }
