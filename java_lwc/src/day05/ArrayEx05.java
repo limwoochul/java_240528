@@ -47,6 +47,13 @@ public class ArrayEx05 {
 			}
 		}
 		
+		// i=0 -> length(3)보다 작음 -> if 거짓 -> i 증가(1)
+		// i=1 -> length(3)보다 작음 -> if 거짓 -> i 증가(2)
+		// i=2 -> length(3)보다 작음 -> if 거짓 -> i 증가(3)
+		// i=3 -> length(3)보다 작지 않음 -> 반복문 종료
+		// 결과적으로 i=3
+		
+		
 		if(i<arr.length) {
 			System.out.println("방법1 : " + num + "은(는) 있습니다.");
 		}
