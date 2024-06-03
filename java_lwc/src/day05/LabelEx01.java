@@ -21,7 +21,7 @@ public class LabelEx01 {
 			}
 			System.out.println();
 		}
-		//라벨 이름 A
+		//라벨 이름 A를 지정한 후 break A;를 이용하면 라벨 이름이 A인 반복문을 빠져 나갈 수 있다.
 		A:	for(i = 1; i <= 5; i++) {
 				for(j = 1; j <= 5; j++) {
 					System.out.print(i*j + " ");
