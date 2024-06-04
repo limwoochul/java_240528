@@ -19,7 +19,7 @@ public class ArrayEx09 {
 			String str = scan.next();
 			
 			for(int i=0; i<list.length; i++) {
-				if(str == list[i]) {
+				if(str.equals(list[i])) {
 					isSame =true;
 					break;
 				}

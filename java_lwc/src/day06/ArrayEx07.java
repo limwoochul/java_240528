@@ -161,16 +161,6 @@ public class ArrayEx07 {
 
 			}
 		}while(menu != 3);//종료
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
 	}
 
 }
