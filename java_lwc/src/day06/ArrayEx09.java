@@ -15,11 +15,11 @@ public class ArrayEx09 {
 		
 		do {
 			isSame = false;
-			System.out.print("문자열 입력 : ");
+			System.out.print("찾을 문자열 입력 : ");
 			String str = scan.next();
 			
-			for(int i=0; i<list.length; i++) {
-				if(str.equals(list[i])) {
+			for(String tmp : list) {
+				if(str.equals(tmp)) {
 					isSame =true;
 					break;
 				}
