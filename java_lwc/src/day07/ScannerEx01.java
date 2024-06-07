@@ -26,8 +26,6 @@ public class ScannerEx01 {
 		System.out.print("문자열 입력(next) : ");
 		String str3 = scan.nextLine();
 		
-		
-		
 
 	}
 

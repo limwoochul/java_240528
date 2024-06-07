@@ -66,6 +66,7 @@ public class Exam04 {
 					System.out.print("단어 입력 (종료:-1) : ");
 					word = scan.next();
 					
+					
 					if(word.equals("-1")) {
 						System.out.println("메뉴로 돌아갑니다.");
 						break;

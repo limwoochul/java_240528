@@ -27,12 +27,32 @@ public class BaseballGame {
 		 * 정답입니다.
 		 * */
 		
+		//랜덤한 수를 생성(중복되지 않게 1~9 사이의 3개의 수)
+		
+		//반복문을 이용하여 정수 3개를 입력 받은 후 판별(다 맞출 때까지)
+		
+			//입력 안내문구 출력
+			
+			//3개를 입력
+		
+			//결과 판별 후 출력
+			//첫번째 랜덤수와 첫번째 입력값이 같으면 스트라이크 또는 볼로 판별
+		
+			//첫번째 랜덤수와 두번째 입력값이 같으면 스트라이크 또는 볼로 판별
+		
+			//첫번째 랜덤수와 첫번째 입력값이 같으면 스트라이크 또는 볼로 판별
+		
+		
+		
+		
+		
 		Scanner scan = new Scanner(System.in);
 		
 		int min=1,max=9, random, count=0, i;
 		int[] arr, num;
 		arr = new int[3];
 		num = new int[3];
+		
 		
 		while(count < arr.length) {
 			random = (int)(Math.random()*(max-min+1)+min);
@@ -74,6 +94,8 @@ public class BaseballGame {
 					}
 				}
 			}
+			
+			
 			
 			if(strike==0 && ball ==0) {
 				System.out.println("O");
