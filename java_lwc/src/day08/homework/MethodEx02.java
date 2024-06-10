@@ -26,7 +26,7 @@ public class MethodEx02 {
 	
 	/**기능 : 최소값과 최대값 사이의 랜덤한 정수를 생성해서 알려주는 메서드 
 	 * 매개변수 : 최소값과 최대값 => int min, int max
-	 * 리턴타입 : 랜덤한 정수 => int num
+	 * 리턴타입 : 랜덤한 정수 => int
 	 * 매서드명 : random
 	 * */
 	
@@ -43,6 +43,10 @@ public class MethodEx02 {
 	 * */
 	
 	public static int[] creatRandomArray(int num, int min, int max) {
+		
+		if(num < 0) {
+			return null;
+		}
 		
 		int[] list = new int[num];
 		

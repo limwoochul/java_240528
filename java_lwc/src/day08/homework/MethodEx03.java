@@ -21,12 +21,13 @@ public class MethodEx03 {
 		
 		int[] arr = createRandomArray(num, min, max);
 		
-		if(arr == null) {
+		if(arr==null) {
 			System.out.println("잘못된 입력입니다.");
 		}
 		else {
 			System.out.println(Arrays.toString(arr));			
 		}
+		
 	}
 	
 	/**기능 : 최소값과 최대값 사이의 랜덤한 정수를 생성해서 알려주는 메서드
@@ -35,6 +36,14 @@ public class MethodEx03 {
 	 * 메서드명 : random
 	 * */
 	public static int random(int min, int max) {
+		
+		if(min > max) {
+			int tmp = min;
+			min = max;
+			max = tmp;
+		}
+		
+		
 		return (int)(Math.random()*(max-min+1)+min);
 	}
 	
@@ -44,7 +53,16 @@ public class MethodEx03 {
 	 * 메서드명 contains
 	 * */
 	public static boolean contains(int[] arr, int count, int num) {
-		for(int i=0; i<count-1; i++) {
+		//배열이 null인 경우
+		if(arr ==null) {
+			return false;
+		}
+		//count가 배열의 크기보다 큰 경우
+		if(count > arr.length) {
+			count = arr.length;
+		}
+		
+		for(int i=0; i<count; i++) {
 			if(arr[i] == num) {
 				return true;
 			}
@@ -58,21 +76,25 @@ public class MethodEx03 {
 	 * 메서드명 : createRandomArray
 	 * */
 	public static int[] createRandomArray(int num, int min, int max) {
-		if(num>max-min+1) {
-			return null;
+		if(num<0) return null;
+		
+		if(min > max) {
+			int tmp = min;
+			min = max;
+			max = tmp;
 		}
+		if(num>max-min+1) return null;
+		
 		int[] arr = new int[num];
 		int count = 0, random;
-		while(count < arr.length) {
+		while(count < num) {
 			random = random(min, max);
 			
-			if(contains(arr, count+1, random)) {
-				continue;
-			}
-			else {
+			if(!contains(arr, count, random)) {
 				arr[count++] = random;
 			}
 		}
+		
 		return arr;
 	}
 

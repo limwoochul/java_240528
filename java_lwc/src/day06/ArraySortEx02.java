@@ -28,6 +28,7 @@ public class ArraySortEx02 {
 		Arrays.sort(arr2, Collections.reverseOrder());
 		System.out.println(Arrays.toString(arr2));
 
+		
 	}
 
 }

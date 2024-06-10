@@ -10,7 +10,7 @@ public class ClassEx01 {
 		result = sum(num1,num2);
 		result = sum(num3, result);
 		System.out.println(result);
-		
+
 		
 		sum2(num1,num2);
 		sum2(num1,num3);
