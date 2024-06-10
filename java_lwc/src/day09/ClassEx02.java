@@ -10,6 +10,7 @@ public class ClassEx02 {
 		std.setName("홍길동");
 		
 		System.out.println(std.getGrade() + "학년 " + std.getClassNum() + "반 " + std.getNum() + "번 " + std.getName());
+		
 	}
 
 }
