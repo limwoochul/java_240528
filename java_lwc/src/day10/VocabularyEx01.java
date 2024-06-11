@@ -29,8 +29,6 @@ public class VocabularyEx01 {
 			switch(menu) {
 			
 			case 1:
-
-				
 				wordCount = insertWord(list, wordCount);
 				//단어 리스트가 다 찼으면 단어 리스트를 늘려줌
 				if(wordCount == list.length) {
@@ -85,26 +83,7 @@ public class VocabularyEx01 {
 		System.out.println("4. 단어 삭제");
 		System.out.println("5. 종료");
 		System.out.print("메뉴 선택 : ");
-	}
-	
-	public static int searchWord(Word[] list, int wordCount) {
-		System.out.print("검색할 단어 : ");
-		String word = scan.next();
-		int Count = 0;
-		
-		System.out.println("검색 결과");
-		for(int i=0; i<wordCount; i++) {
-			if(list[i].getWord().equals(word)) {
-				System.out.print(i + ".");
-				list[i].print();
-				Count++;
-			}
-		}
-		if(Count == 0)	return -1;
-		
-		return 1;
-	}
-	
+	}	
 	
 	/**기능 : 단어 정보를 입력받아 단어 객체를 올려주는 메서드
 	 * @return 단어 객체
@@ -172,6 +151,10 @@ public class VocabularyEx01 {
 		}
 	}
 	
+	/**기능 : 저장된 단어 리스트를 수정하는 메서드
+	 * @param list
+	 * @param wordCount
+	 */
 	public static void updateWord(Word[] list, int wordCount) {
 		//단어 수정을 구현하기 위한 과정을 주석으로 작성. 같은 단어가 있는 경우
 		//누구를 수정할지를 선택하는 부분을 고민해야 함.
@@ -209,6 +192,9 @@ public class VocabularyEx01 {
 		list[num-1].print();
 		//정렬
 		wordSort(list,wordCount);
+		System.out.println("-----------------");
+		System.out.println("단어 수정을 완료했습니다.");
+		System.out.println("-----------------");
 	}
 	
 }
