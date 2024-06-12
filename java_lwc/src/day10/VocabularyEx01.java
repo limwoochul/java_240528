@@ -44,12 +44,12 @@ public class VocabularyEx01 {
 				break;
 				
 			case 3:
-				System.out.println("단어를 검색합니다.");
-				
+				searchWord(list, wordCount);
 				break;
 				
 			case 4:
-				System.out.println("단어를 삭제합니다.");
+				wordCount = deleteWord(list, wordCount);
+				
 				break;
 				
 			case 5:
@@ -61,8 +61,29 @@ public class VocabularyEx01 {
 			}
 		}while(menu != 5);
 		
-
 	}
+	
+	private static int deleteWord(Word[] list, int wordCount) {
+		System.out.print("단어 입력 : ");
+		String word = scan.next();
+		
+		printSearchWord(list, wordCount, word);
+		
+		System.out.print("삭제할 단어 번호 선택 : ");
+		int num = scan.nextInt();
+		if(!checkWord(list, word, num-1)) {
+			System.out.println("잘못된 번호를 선택했습니다.");
+			return wordCount;
+		}
+		
+		wordCount = deleteWordList(list, wordCount, num-1);
+		
+		System.out.println("--------------------");
+		System.out.println("단어 삭제를 완료했습니다.");
+		System.out.println("--------------------");
+		return wordCount;
+	}
+
 	/**기능 : list에 index 번지에 있는 단어가 word인지 아닌지 알려주는 메서드
 	 * @param list 단어 리스트
 	 * @param word 검색할 단어
@@ -111,9 +132,9 @@ public class VocabularyEx01 {
 		list[wordCount++] = tmp;
 		
 		wordSort(list, wordCount);
-		System.out.println("-----------------");
+		System.out.println("--------------------");
 		System.out.println("단어 등록을 완료했습니다.");
-		System.out.println("-----------------");
+		System.out.println("--------------------");
 		
 		return wordCount;
 	}
@@ -132,7 +153,6 @@ public class VocabularyEx01 {
 		System.arraycopy(list, 0, tmp, 0, list.length);
 		return tmp;
 	}
-	
 	
 	/**기능 : 저장된 단어 리스트를 정렬하는 메서드
 	 * @param list 단어 리스트
@@ -161,22 +181,8 @@ public class VocabularyEx01 {
 		System.out.print("검색할 단어 : ");
 		String word = scan.next();
 		//수정할 단어를 입력
-		int Count = 0;//일치하는 단어가 몇개 있는지 확인하는 변수
 		
-		//단어 리스트에 수정할 단어와 일치하는 단어들을 번호와 함께 출력
-		System.out.println("검색 결과");
-		for(int i=0; i<wordCount; i++) {
-			if(list[i].getWord().equals(word)) {
-				System.out.print(i+1 + ".");
-				list[i].print();
-				Count++;
-			}
-		}
-		//수정할 단어가 없으면 안내문구 출력 후 종료
-		if(Count == 0) {
-			System.out.println("수정할 단어가 없습니다.");
-			return;
-		}
+		printSearchWord(list, wordCount, word);
 		//수정할 단어를 선택
 		System.out.print("수정할 단어 번호 선택 : ");
 		int num = scan.nextInt();
@@ -192,9 +198,70 @@ public class VocabularyEx01 {
 		list[num-1].print();
 		//정렬
 		wordSort(list,wordCount);
-		System.out.println("-----------------");
+		System.out.println("--------------------");
 		System.out.println("단어 수정을 완료했습니다.");
-		System.out.println("-----------------");
+		System.out.println("--------------------");
+	}
+	
+	/**기능 : 단어 리스트에 단어가 있으면 해당 단어를 출력하고 없으면 없다고 출력하는 메서드
+	 * @param list
+	 * @param wordCount
+	 */
+	public static void searchWord(Word[] list, int wordCount) {
+		System.out.print("단어 입력 : ");
+		String word = scan.next();
+		
+		printSearchWord(list, wordCount, word);
+		
+		System.out.println("--------------------");
+		System.out.println("단어 검색을 완료했습니다.");
+		System.out.println("--------------------");
+	}
+	
+	/**기능 : 배열의 index번지에 요소를 삭제하는 메서드
+	 * @param list
+	 * @param wordCount
+	 * @param index 삭제할 위치
+	 * @return 삭제된 후 단어 수
+	 */
+	public static int deleteWordList(Word[] list, int wordCount, int index) {
+		Word[] tmp = new Word[list.length];
+		//단어 리스트의 복사본
+		System.arraycopy(list, 0, tmp, 0, wordCount);
+		
+		if(wordCount-index != 0) {
+			System.arraycopy(tmp, index+1, list, index, wordCount-index-1);
+		}
+		wordCount--;
+		tmp[wordCount] = null;
+		
+		return wordCount;
+		
+		/*list[num-1] = list[wordCount-1];
+		list[wordCount-1] = null;
+		wordCount--;
+		
+		wordSort(list, wordCount);*/
+
+	}
+	
+	public static void printSearchWord(Word[] list, int wordCount, String word) {
+		int count = 0;//일치하는 단어가 몇개 있는지 확인하는 변수
+		
+		//단어 리스트에 수정할 단어와 일치하는 단어들을 번호와 함께 출력
+		System.out.println("검색 결과");
+		for(int i=0; i<wordCount; i++) {
+			if(list[i].getWord().equals(word)) {
+				System.out.print(i+1 + ".");
+				list[i].print();
+				count++;
+			}
+		}
+		//수정할 단어가 없으면 안내문구 출력 후 종료
+		if(count == 0) {
+			System.out.println("수정할 단어가 없습니다.");
+			return;
+		}
 	}
 	
 }
