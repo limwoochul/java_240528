@@ -1,4 +1,4 @@
-package Self;
+package selfchapter09;
 
 public abstract class Computer {
 	public abstract void display();

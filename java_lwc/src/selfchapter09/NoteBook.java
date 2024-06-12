@@ -1,4 +1,4 @@
-package Self;
+package selfchapter09;
 
 public abstract class NoteBook extends Computer {
 

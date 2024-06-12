@@ -1,4 +1,4 @@
-package Self.Exercise;
+package selfchapter09.exercise;
 
 public class Bus extends Car{
 	@Override
