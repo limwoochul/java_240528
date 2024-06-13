@@ -1,7 +1,6 @@
 package selfchapter10;
 
 public class CalculatorTest {
-
 	public static void main(String[] args) {
 		int num1 = 10;
 		int num2 = 5;
@@ -13,6 +12,11 @@ public class CalculatorTest {
 		System.out.println(calc.divide(num1, num2));
 		System.out.println(calc.square(num1));
 		calc.showInfo();
+		
+		calc.description();
+		
+		int[] arr = {1,2,3,4,5};
+		System.out.println(Calc.total(arr));
 	}
 
 }

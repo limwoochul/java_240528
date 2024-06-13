@@ -19,6 +19,12 @@ public class CompleteCalc extends Calculator {
 		return num * num;
 	}
 	
+	@Override
+	public void description() {
+		// TODO Auto-generated method stub
+		super.description();
+	}
+
 	public void showInfo() {
 		System.out.println("Calc 인터페이스를 구현하셨습니다.");
 	}
