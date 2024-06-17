@@ -57,7 +57,6 @@ public class PhoneEx01Self {
 
 		try {
 			System.out.print("검색할 이름을 작성하세요(전체 검색 : 엔터) : ");
-			scan.nextLine();
 			String name = scan.nextLine();
 
 			printSearchNumber(list, numberCount, name);
@@ -87,7 +86,7 @@ public class PhoneEx01Self {
 		PhoneNumber[] tmp = new PhoneNumber[list.length];
 		System.arraycopy(list, 0, tmp, 0, numberCount);
 
-		if(numberCount-index != 0) {
+		if(numberCount != index) {
 			System.arraycopy(list, index+1, list, index, numberCount-index-1);
 		}
 		numberCount--;
@@ -143,7 +142,6 @@ public class PhoneEx01Self {
 
 	public static void searchNumber(PhoneNumber[] list, int numberCount) {
 		System.out.print("검색할 이름을 작성하세요(전체 검색 : 엔터) : ");
-		scan.nextLine();
 		String name = scan.nextLine();
 
 		PhoneNumber[] tmp = list;
