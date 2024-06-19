@@ -1,12 +1,10 @@
 package day16;
 
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.Scanner;
-
-import lombok.AllArgsConstructor;
-import lombok.Data;
 
 public class Ex03 {
 
@@ -23,28 +21,28 @@ public class Ex03 {
 		 * 메뉴 선택 :
 		 * */
 		int menu;
-		List<Record> list = new ArrayList<Record>();
+		Map<String, Integer> map = new HashMap<String, Integer>();
 		do {
 			//메뉴 출력
 			printMenu();
 			//메뉴 선택
 			menu = scan.nextInt();
 			//선택한 메뉴에 따른 기능 실행
-			runMenu(menu, list);
+			runMenu(menu, map);
 		}while(menu != 3);
 
 	}
 
-	private static void runMenu(int menu, List<Record> list) {
+	private static void runMenu(int menu, Map<String, Integer> map) {
 		switch(menu) {
 
 		case 1:
 			int count = play();
-			record(list, count);
+			record(map, count);
 			break;
 
 		case 2:
-			printRecord(list);
+			printRecord(map);
 			break;
 
 		case 3:
@@ -56,45 +54,75 @@ public class Ex03 {
 		}
 	}
 
-	private static void printRecord(List<Record> list) {
+	private static void printRecord(Map<String, Integer> map) {
 		//기록이 없으면 등록된 기록이 없습니다 라고 출력하고 종료
-		if(list.size() == 0) {
+		if(map.size() == 0) {
 			System.out.println("등록된 기록이 없습니다.");
 			return;
 		}
 		//반복문을 이용하여 등수. 아이디 횟수회 형태로 출력
-		for(int i=0; i<list.size(); i++) {
-			System.out.println(i+1 + ". " + list.get(i));
+		Iterator<String> it = map.keySet().iterator();
+		while(it.hasNext()) {
+			String id = it.next();
+			Integer count = map.get(id);
+			System.out.println(id + " " + count + "회");
 		}
 	}
 
-	private static void record(List<Record> list, int count) {
+	private static void record(Map<String, Integer> map, int count) {
+		final int MAX_RECORD_COUNT = 5;
 		//저장된 기록이 5명 미만이면
-		if(list.size() < 5) {
+		if(map.size() < MAX_RECORD_COUNT) {
 			//아이디를 입력받고
 			System.out.print("ID : ");
 			String id = scan.next();
-			//아이디와 횟수를 이용해서 객체를 생성
-			Record record = new Record(count, id);		
-			//리스트에 생성된 객체를 추가
-			list.add(record);
-			//Collections.sort를 이용하여 정렬
-			Collections.sort(list);
+			
+			//map에 아이디와 횟수를 추가하는데 기존 기록이 있는 경우 더 좋은 기록으로 저장
+			recordUser(map, id, count);
 			//종료
 			return;
 		}
 		//이상이면 5등 기록과 내 기록을 비교해서 내 기록이 좋으면
-		final int MAX_RECORD_COUNT = 5;
-		if(count < list.get(MAX_RECORD_COUNT - 1).getCount()) {
+		String deleteId = checkRecord(map, count);
+		if(deleteId != null) {
 			//아이디를 입력 받고
 			System.out.print("ID : ");
 			String id = scan.next();
-			//아이디와 횟수를 이용해서 객체를 생성
-			Record record = new Record(count, id);
-			//5등 위치에 내 기록(생성된 객체)을 저장
-			list.set(MAX_RECORD_COUNT-1, record);
-			//Collections.sort를 이용하여 정렬
-			Collections.sort(list);
+			
+			//deleteId와 id가 같지 않으면 deleteId에 있는 기록 삭제
+			if(!contains(map, id)) {
+				map.remove(deleteId);
+			}
+			//recordUser를 실행
+			recordUser(map, id, count);
+		}
+	}
+
+	private static boolean contains(Map<String, Integer> map, String id) {
+		return map.get(id) != null;
+	}
+
+	private static String checkRecord(Map<String, Integer> map, int count) {
+		Iterator<String> it = map.keySet().iterator();
+		String deleteId = null;
+		int maxCount = 0;
+		while(it.hasNext()) {
+			String id = it.next();
+			Integer recordCount = map.get(id);
+			//현재 기록이 저장된 기록보다 좋고 저장된 기록이 삭제할 기록보다 크면
+			if(count < recordCount && maxCount < recordCount) {
+				maxCount = recordCount;
+				deleteId = id;
+			}
+		}
+		return deleteId;
+	}
+
+	private static void recordUser(Map<String, Integer> map, String id, int count) {
+		Integer oldCount = map.get(id);
+		//이전 기록이 없거나 이전 기록보다 지금 기록이 좋으면 추가
+		if(oldCount == null || count < oldCount) {
+			map.put(id, count);
 		}
 	}
 
@@ -122,22 +150,4 @@ public class Ex03 {
 				+ "메뉴 선택 : ");
 	}
 
-}
-
-@Data
-@AllArgsConstructor
-class Record implements Comparable<Record>{
-	private int count;
-	private String ID;
-	
-	@Override
-	public int compareTo(Record o) {
-		return count - o.count;
-	}
-
-	@Override
-	public String toString() {
-		return ID + " " + count + "회";
-	}
-	
 }
