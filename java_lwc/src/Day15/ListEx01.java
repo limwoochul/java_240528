@@ -22,13 +22,13 @@ public class ListEx01 {
 		System.out.println(list.remove("Hi")); //Hi와 일치하는 객체가 있어서 삭제 성공
 		System.out.println(list.remove(0));
 		
-		list.add("홍길동");
+		//list.add("홍길동");
 		
 		/* get(번지) : 번지 위치에 있는 객체를 가져옴 */
 		System.out.println(list.get(0));
 		
 		/* claer() : 리스트를 비움. 컬렉션 인터페이스 */
-		//list.clear();		
+		list.clear();		
 		
 		/* contains(객체) : 리스트에 객체가 있는지 없는지를 알려줌. 컬렉션 */
 		System.out.println("리스트에 Hi가 있습니까? " + list.contains("Hi"));
