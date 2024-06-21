@@ -40,7 +40,7 @@ public class StreamEx01 {
 		stream = list.stream();
 		long count = stream.filter(p->p.getGender().equals("여")).count();
 		System.out.println("등록된 여성 수 : " + count);
-		
+
 		//등록된 성인 수를 출력
 		stream = list.stream();
 		count = stream.filter(p->p.getAge()>=20).count();
