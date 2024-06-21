@@ -130,6 +130,15 @@ class Record implements Comparable<Record>{
 	private int count;
 	private String ID;
 	
+	public Record(int count2, String id2) {
+		// TODO Auto-generated constructor stub
+	}
+
+	public int getCount() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 	@Override
 	public int compareTo(Record o) {
 		return count - o.count;

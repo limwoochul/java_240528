@@ -2,6 +2,7 @@ package day13.homework;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
+import lombok.Data;
 
 public class PhoneEx01Self {
 

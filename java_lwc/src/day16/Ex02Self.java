@@ -139,5 +139,6 @@ class Record2 implements Comparable<Record2>{
 	public int compareTo(Record2 o) {
 		return count - o.count;
 	}
+
 	
 }

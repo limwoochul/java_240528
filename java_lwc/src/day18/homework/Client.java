@@ -5,14 +5,26 @@ import java.io.Serializable;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+
 @Data
 @AllArgsConstructor
-public class Client implements Serializable {
+public class Client implements Serializable{
 	
-	private static final long serialVersionUID = -6554336258454504077L;
-	
-	private String ID;
+
+	private static final long serialVersionUID = 1L;
+	private String id;
 	private String name;
+	
+	public Client(String id, String name) {
+		this.id = id;
+		this.name = name;
+	}
+
+	@Override
+	public String toString() {
+		return "Client [id=" + id + ", name=" + name + "]";
+	}
+	
 	
 
 }

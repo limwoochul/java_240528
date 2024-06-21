@@ -7,11 +7,13 @@ import program.Program;
 
 public class MainMenu implements Program {
 
-	private final int ClientManager = 1;
-	private final int ScheduleManager = 2;
-	private final int EXIT = 3;
+	private Scanner scan = new Scanner(System.in);
+	ClientManager cm = new ClientManager();
+    ScheduleManager sm = new ScheduleManager(cm);
 	
-	private static Scanner scan = new Scanner(System.in);
+	private final int CLIENTMANAGER = 1;
+	private final int SCHEDULEMANAGER = 2;
+	private final int EXIT = 3;
 	
 	@Override
 	public void printMenu() {
@@ -25,15 +27,11 @@ public class MainMenu implements Program {
 
 	@Override
 	public void runMenu(int menu) throws Exception {
-		
-		ClientManager cm = new ClientManager();
-		ScheduleManager sm = new ScheduleManager();
-		
 		switch(menu) {
-		case ClientManager:
+		case CLIENTMANAGER:
 			cm.run();
 			break;
-		case ScheduleManager:
+		case SCHEDULEMANAGER:
 			sm.run();
 			break;
 		case EXIT:
@@ -42,25 +40,27 @@ public class MainMenu implements Program {
 		default:
 			System.out.println("잘못된 메뉴입니다. 올바른 메뉴를 선택하세요.");	
 		}
+		
 	}
-
 
 	@Override
 	public void run() {
 		int menu = 0;
 		do {
+			//메뉴 출력
 			printMenu();
 			try {
+				//메뉴선택
 				menu = scan.nextInt();
+				//선택한 메뉴 실행
 				runMenu(menu);
-			} catch(InputMismatchException e) {
+			}catch(InputMismatchException e) {
 				System.out.println("올바른 타입을 입력하세요.");
-				scan.nextLine();
-			} catch(Exception e) {
+				scan.nextLine(); //입력 버퍼에 남은 값들을 비워 둠
+			}catch(Exception e) {
 				System.out.println(e.getMessage());
 			}
 		}while(menu != EXIT);
 	}
-
 
 }
