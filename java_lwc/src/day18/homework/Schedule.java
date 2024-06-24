@@ -42,12 +42,6 @@ public class Schedule implements Serializable {
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-	public Schedule(String clientID, String date, String detail, String status) {
-		this.clientID = clientID;
-		this.date = date;
-		this.detail = detail;
-		this.status = status;
-	}
 	@Override
 	public String toString() {
 		return date + " / " + detail + " / " + status;

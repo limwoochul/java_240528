@@ -14,8 +14,3 @@ public class SelfEx {
 }
 
 
-@Data
-class Test{
-	private String name;
-	private String number;
-}

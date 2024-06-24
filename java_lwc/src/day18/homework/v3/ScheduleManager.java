@@ -231,8 +231,8 @@ public class ScheduleManager implements Program {
 		
 		//있으면 이름 입력 후 이름 수정
 		System.out.print("수정할 이름 : ");
-		String nmae = scan.next();
-		list.get(index).setName(nmae);
+		String name = scan.next();
+		list.get(index).setName(name);
 		printBar();
 		System.out.println("회원 정보를 수정했습니다.");
 	}
