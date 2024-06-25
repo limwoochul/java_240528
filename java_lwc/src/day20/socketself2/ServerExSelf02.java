@@ -8,7 +8,7 @@ public class ServerExSelf02 {
 
 	public static void main(String[] args) {
 		int port = 5001;
-		
+
 		try {
 			ServerSocket serverSocket = new ServerSocket(port);
 			Socket socket = serverSocket.accept();
@@ -20,5 +20,4 @@ public class ServerExSelf02 {
 		}
 
 	}
-
 }
