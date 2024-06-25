@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import day18.homework.v1.Schedule;
 import program.Program;
@@ -40,7 +42,6 @@ public class PostManager implements Program {
 	public void run() {
 		load(fileName);
 		
-		Post.setCount(list.size());
 		
 		int menu;
 		do {
@@ -69,6 +70,7 @@ public class PostManager implements Program {
 	public void save(String fileName) {
 		try(FileOutputStream fos = new FileOutputStream(fileName);
 			ObjectOutputStream oos = new ObjectOutputStream(fos)){
+			oos.write(Post.getCount());
 			oos.writeObject(list);
 		} catch (Exception e) {
 			System.out.println("저장에 실패했습니다.");
@@ -78,9 +80,10 @@ public class PostManager implements Program {
 	@SuppressWarnings("unchecked")
 	@Override
 	public void load(String fileName) {
-
 		try(FileInputStream fis = new FileInputStream(fileName);
 			ObjectInputStream ois = new ObjectInputStream(fis)){
+			int count = ois.read();
+			Post.setCount(count);
 			list = (List<Post>) ois.readObject();
 		} catch (Exception e) {
 			System.out.println("불러오기에 실패했습니다.");
@@ -92,7 +95,6 @@ public class PostManager implements Program {
 		switch(menu) {
 		case INSERT:
 			insert();
-			System.out.println(list);
 			break;
 		case UPDATE:
 			update();
@@ -121,6 +123,13 @@ public class PostManager implements Program {
 		int index = list.indexOf(post);
 		confirmDelete(index);
 		
+		//게시글을 리스트에서 삭제하는데 성공하면 안내 문구 출력
+		//밑의 방식으로도 활용 가능
+		/*
+		if(list.remove(post)) {
+			System.out.println(post.getNum() + "번 게시글이 삭제되었습니다.");
+		}
+		*/
 	}
 
 	private void confirmDelete(int index) {
@@ -202,43 +211,71 @@ public class PostManager implements Program {
 		scan.nextLine();
 		String search = scan.nextLine();
 		
-		int count = 0;
-		for(Post tmp : list) {
-			if(tmp.getTitle().contains(search) || tmp.getContents().contains(search)) {
-			 count++;
-			}
-		}
-		if(count == 0) {
+		List<Post> searchList = getSearchList(search);
+		
+		if(searchList.size() == 0) {
 			printbar();
-			System.out.println("검색 결과가 없습니다.");
+			System.out.println("검색어와 일치하는 게시글이 없습니다.");
 			return;
 		}
 		
-		System.out.println("---검색 결과---");
-		for(Post tmp : list) {
-			if(tmp.getTitle().contains(search) || tmp.getContents().contains(search)) {
-				System.out.println(tmp.toString());
-			}
-		}
-
-		printbar();
+		printList(searchList);
 		
-		confirmSearch();
+		confirmSearch(searchList);
 		
 		System.out.print("메뉴로 돌아가시려면 엔터를 누르세요.");
 		scan.nextLine();
 		scan.nextLine();
 	}
 
-	private void confirmSearch() {
+	private void printList(List<Post> searchList) {
+		System.out.println("---검색 결과---");
+		for(Post post : searchList) {
+				System.out.println(post);
+		}
+		printbar();
+	}
+
+	private List<Post> getSearchList(String search) {
+		
+		List<Post> searchList = new ArrayList<Post>();
+		//전체 게시글에서 하나씩 꺼내서 전체 탐색
+		for(Post post : list) {
+			//게시글의 제목 또는 내용에 검색어가 포함되어 있으면 검색 리스트에 추가
+			if( post.getTitle().contains(search) ||
+				post.getContents().contains(search)) {
+				searchList.add(post);
+			}
+		}
+		return searchList;
+		
+		//스트림을 이용하여 검색어와 일치하는 게시글 리스트를 가져옴
+		//밑의 방식으로도 활용 가능
+		/*
+		return list.stream()
+				.filter(p->p.getTitle().contains(search)
+						|| p.getContents().contains(search))
+				.collect(Collectors.toList());
+		 */
+	}
+
+	private void confirmSearch(List<Post> searchList) {
 		System.out.print("게시글을 확인하시겠습니까?(Y/N) : ");
 		char confirm = scan.next().charAt(0);
 		if(confirm == 'Y' || confirm == 'y') {
 			printbar();
 			System.out.print("조회할 게시글의 번호를 입력하세요 : ");
-			int idx = scan.nextInt() - 1;
+			int num = scan.nextInt() - 1;
 			printbar();
-			list.get(idx).print();
+			Post post = new Post(num);
+			int index = searchList.indexOf(post);
+			
+			if(index < 0) {
+				System.out.println("검색 결과에는 없는 게시글입니다.");
+				return;
+			}
+			post = searchList.get(index);
+			post.print();
 			printbar();
 		}
 		else if(confirm == 'N' || confirm == 'n') {

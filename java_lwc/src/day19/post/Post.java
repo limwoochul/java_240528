@@ -9,6 +9,7 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class Post implements Serializable{
+	
 	private static final long serialVersionUID = 1L;
 	
 	//제목, 내용, 작성자, 비번, 조회수
