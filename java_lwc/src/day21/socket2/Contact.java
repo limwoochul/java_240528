@@ -1,4 +1,4 @@
-package day17.contact;
+package day21.socket2;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -10,7 +10,8 @@ import lombok.Data;
 @AllArgsConstructor
 public class Contact implements Serializable {
 	
-	private static final long serialVersionUID = 123L;
+	private static final long serialVersionUID = 1L;
+	
 	private String number;
 	private String name;
 	
@@ -34,9 +35,7 @@ public class Contact implements Serializable {
 	@Override
 	public int hashCode() {
 		return Objects.hash(number);
-	}	
-	
-	
+	}
 	
 	
 }
