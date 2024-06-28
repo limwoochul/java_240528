@@ -1,5 +1,6 @@
 package student;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -7,8 +8,9 @@ import java.util.Objects;
 import lombok.Data;
 
 @Data
-public class Student {
+public class Student implements Serializable {
 	
+	private static final long serialVersionUID = 432L;
 	//- 학년, 반, 번호, 이름
 	private int grade, classNum, num;
 	private String name;
@@ -54,6 +56,11 @@ public class Student {
 		}
 	}
 	
-	
+	public void update(Student std) {
+		this.grade = std.grade;
+		this.classNum = std.classNum;
+		this.num = std.num;
+		this.name = std.name;
+	}
 	
 }

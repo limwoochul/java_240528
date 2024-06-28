@@ -5,15 +5,17 @@ import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
+import javax.security.auth.Subject;
+
 import program.Program;
 
 
 public class StudentManager implements Program {
 
 	//학생 성적 관리를 위한 리스트
-	private List<Student> list = new ArrayList<Student>();
+	private List<StudentSelf> list = new ArrayList<StudentSelf>();
 	//과목 관리를 위한 리스트
-	private List<Subject> subjectList = new ArrayList<Subject>();
+	private List<String> subjectList = new ArrayList<String>();
 	private Scanner scan = new Scanner(System.in);
 	
 	
@@ -66,8 +68,12 @@ public class StudentManager implements Program {
 			exit();
 			break;
 		default:
-			
+			defaultPrint();
 		}
+	}
+
+	private void defaultPrint() {
+		System.out.println("올바른 메뉴를 선택하세요.");
 	}
 
 	private void student() {
@@ -108,12 +114,12 @@ public class StudentManager implements Program {
 			prev();
 			break;
 		default:
-			
+			defaultPrint();
 		}
 	}
 
 	private void studentInsert() {
-		Student std = inputStudentExpand();
+		StudentSelf std = inputStudentExpand();
 		
 		if(list.contains(std)) {
 			System.out.println("이미 등록된 학년, 반, 번호입니다.");
@@ -126,7 +132,7 @@ public class StudentManager implements Program {
 	/**학년, 반, 번호를 입력받아 학생 객체를 만들어서 반환하는 메소드
 	 * @return 학년, 반, 번호가 있는 만들어진 학생 객체
 	 * */
-	public Student inputStudent() {
+	public StudentSelf inputStudent() {
 		System.out.print("학년 : ");
 		int grade = nextInt();
 		System.out.print("반 : ");
@@ -134,13 +140,13 @@ public class StudentManager implements Program {
 		System.out.print("번호 : ");
 		int num = nextInt();
 
-		return new Student(grade, classNum, num, "");
+		return new StudentSelf(grade, classNum, num, "");
 	}
 	/**학년, 반, 번호를 입력받아 학생 객체를 만들어서 만환하는 메소드
 	 * @return 학년, 반, 번호, 이름이 있는 만들어진 학생 객체
 	 * */
-	public Student inputStudentExpand() {
-		Student std = inputStudent();
+	public StudentSelf inputStudentExpand() {
+		StudentSelf std = inputStudent();
 		
 		System.out.print("이름 : ");
 		scan.nextLine();
@@ -175,60 +181,224 @@ public class StudentManager implements Program {
 			studentInfoUpdate();
 			break;
 		case 2:
-			scoreInsert();
+			insertSubjectScore();
 			break;
 		case 3:
-			scoreUpdate();
+			updateSubjectScore();
 			break;
 		case 4:
-			scoreDelete();
+			deleteSubjectScore();
 			break;
 		case 5:
 			prev();
 			break;
 		default:
-			
+			defaultPrint();
 		}
 	}
 
 	private void studentInfoUpdate() {
-		
-	}
-
-	private void scoreInsert() {
-		System.out.println("성적을 입력할 학생의 정보를 입력하세요.");
-		Student std = inputStudent();
-		int stdIndex = list.indexOf(std);
-		
-		if(stdIndex < 0) {
+		//수정하려는 학년, 반, 번호를 입력
+		//입력한 정보를 이용해서 학생 객체를 생성
+		//=>indexOf 또는 contains 등을 이용해서 객체를 쉽게 비교하기 위해서
+		StudentSelf student = inputStudent();
+		//생성한 학생객체를 이용해서 리스트에 몇번지에 있는지 번지를 가져옴
+		int index = list.indexOf(student);
+		//번지가 유효하지 않은 번지이면 => 번지가 0보다 작으면 알림문구 출력 후 종료
+		if(index < 0) {
 			System.out.println("일치하는 학생이 없습니다.");
 			return;
 		}
+		//유효한 번지이면 수정할 학년, 반, 번호, 이름을 입력
+		//위에서 입력한 학년, 반, 번호, 이름으로 객체를 생성
+		StudentSelf newStudent = inputStudentExpand();
+		//수정할 학생 객체를 리스트에서 번지에 있는 객체를 삭제해서 가져옴
+		//=>번지를 이용해서 삭제하면 삭제된 객체를 반환
+		StudentSelf existStudent = list.remove(index);
 		
-		System.out.println("성적을 입력할 과목을 입력하세요.");
-		Subject sub = inputSubject();
-		
-		int subIndex = list.get(stdIndex).getSubjectList().indexOf(sub);
-		
-		if(subIndex < 0) {
-			System.out.println("일치하는 과목이 없습니다.");
+		//생성한 객체가 리스트에 있는지 확인해서 알림문구 출력 후 종료
+		if(list.contains(newStudent)) {
+			System.out.println("이미 존재하는 학생입니다.");
+			list.add(existStudent);
 			return;
 		}
 		
+		//삭제된 객체의 update 메소드를 이용해서 학년, 반, 번호, 이름을 수정
+		//update 메소드는 Student 클래스에서 새로 추가해야 함
+		newStudent = newStudent.update(existStudent, newStudent);
+		
+		//리스트에 삭제되었던 객체를 추가
+		list.add(newStudent);
+		System.out.println("학생 정보가 수정되었습니다.");
+		
+	}
+
+	private void insertSubjectScore() {
+		//등록된 과목이 없으면 알림문구 출력 후 종료
+		if(subjectList.size() == 0) {
+			System.out.println("등록된 과목이 없어서 추가할 수 없습니다. 과목을 추가해주세요.");
+			return;
+		}
+		
+		//학생 정보 입력(학년, 반, 번호)해서 학생 객체를 생성
+		StudentSelf std = inputStudent();
+		//리스트에 입력한 학생 객체가 몇번지에 있는지 번지를 가져옴
+		int index = list.indexOf(std);
+		//번지가 유효하지 않으면 안내문구 출력 후 종료
+		if(index < 0) {
+			System.out.println("일치하는 학생이 없습니다.");
+			return;
+		}
+		//리스트에서 번지에 있는 학생 정보를 가져옴
+		std = list.get(index);
+		
+		//등록된 과목 리스트를 출력
+		List<SubjectSelf> subjects = std.getSubjectList();
+		//학년, 학기, 과목명, 중간, 기말, 수행평가를 입력한 후 과목 객체를 생성
+		SubjectSelf inputSubject = inputSubject();
+		
+		//입력한 과목이 과목 리스트에 없으면 안내문구 출력 후 종료
+		if(!subjectList.contains(inputSubject.getName())) {
+			System.out.println("등록되지 않은 과목이어서 성적을 추가할 수 없습니다.");
+			return;
+		}
+		
+		//학생의 과목 리스트를 가져옴
+		List<SubjectSelf> tmpList = std.getSubjectList();
+		
+		//학생의 과목 리스트에 생성한 과목 객체가 있으면 안내문구 출력 후 종료
+		if(tmpList.contains(inputSubject)) {
+			System.out.println("이미 입력된 정보입니다.");
+			return;
+		}
+		//없으면 학생의 과목 리스트에 추가
+		tmpList.add(inputSubject);
+		System.out.println("학생 성적을 등록했습니다.");
+		
 		
 	}
 
 
-	private void scoreUpdate() {
-		
+	private SubjectSelf inputSubject() {
+		SubjectSelf subject = inputRequiredSubject();
+		System.out.print("중간 : ");
+		int mid = nextInt();
+		System.out.print("기말 : ");
+		int finals = nextInt();
+		System.out.print("수행 : ");
+		int performance = nextInt();
+		subject.update(mid, finals, performance);
+		return subject;
 	}
 
-	private void scoreDelete() {
+	private void updateSubjectScore() {
+		//등록된 과목이 없으면 알림문구 출력 후 종료
+		if(subjectList.size() == 0) {
+			System.out.println("등록된 과목이 없어서 추가할 수 없습니다. 과목을 추가해주세요.");
+			return;
+		}
+
+		//학생 정보 입력(학년, 반, 번호)해서 학생 객체를 생성
+		StudentSelf std = inputStudent();
+		//리스트에 입력한 학생 객체가 몇번지에 있는지 번지를 가져옴
+		int index = list.indexOf(std);
+		//번지가 유효하지 않으면 안내문구 출력 후 종료
+		if(index < 0) {
+			System.out.println("일치하는 학생이 없습니다.");
+			return;
+		}
+		//번지에 있는 학생 객체를 가져옴
+		std = list.get(index);
+		//과목 리스트를 가져옴
+		List<SubjectSelf> subjects = std.getSubjectList();
+		//수정할 과목, 학년, 학기 정보를 입력
+		//과목, 학년, 학기를 이용해서 객체를 생성
+		SubjectSelf subject = inputRequiredSubject();
+
+		//과목이 과목 리스트에 없으면 안내문구 출력 후 종료
+		if(!subjectList.contains(subject.getName())) {
+			System.out.println("등록되지 않는 과목입니다.");
+			return;
+		}
 		
+		//과목 객체가 학생 성적 리스트에 없으면 안내문구 출력 후 종료
+		if(!subjects.contains(subject)) {
+			System.out.println("등록되지 않은 성적이라서 수정할 수 없습니다.");
+			return;
+		}
+		
+		//중간, 기말, 수행평가를 입력
+		System.out.print("중간 : ");
+		int mid = nextInt();
+		System.out.print("기말 : ");
+		int finals = nextInt();
+		System.out.print("수행 : ");
+		int performance = nextInt();
+		//과목 객체의 성적을 수정
+		subject.update(mid, finals, performance);
+		
+		//제거하고 추가하는 이유는 이렇게 하지 않으면
+		//subjects에서 해당 과목이 몇번지에 있는지 확인해서 해당 과목 정보를 가져오고
+		//성적을 수정해야 하는데 번거롭기 때문에 아래와 같이 작성
+		//리스트에서 과목객체를 제거
+		subjects.remove(subject);
+		//리스트에서 과목 객체를 추가
+		subjects.add(subject);
+		System.out.println("과목 성적을 수정했습니다.");
+	}
+
+	private void deleteSubjectScore() {
+		//등록된 과목이 없으면 알림문구 출력 후 종료
+		if(subjectList.size() == 0) {
+			System.out.println("등록된 과목이 없어서 추가할 수 없습니다. 과목을 추가해주세요.");
+			return;
+		}
+		
+		//학생 정보 입력(학년, 반, 번호)해서 학생 객체를 생성
+		StudentSelf std = inputStudent();
+		//리스트에 입력한 학생 객체가 몇번지에 있는지 번지를 가져옴
+		int index = list.indexOf(std);
+		//번지가 유효하지 않으면 안내문구 출력 후 종료
+		if(index < 0) {
+			System.out.println("일치하는 학생이 없습니다.");
+			return;
+		}
+		//번지에 있는 학생 객체를 가져옴
+		std = list.get(index);
+		//과목 리스트를 가져옴
+		List<SubjectSelf> subjects = std.getSubjectList();
+		//삭제할 과목, 학년, 학기 정보를 입력
+		//과목, 학년, 학기를 이용해서 객체를 생성
+		SubjectSelf subject = inputRequiredSubject();
+
+		//과목이 과목 리스트에 없으면 안내문구 출력 후 종료
+		if(!subjectList.contains(subject.getName())) {
+			System.out.println("등록되지 않는 과목입니다.");
+			return;
+		}
+		
+		//학생 과목 리스트에서 과목 객체를 삭제하여 성공하면 안내문구 출력 후 종료
+		if(subjects.remove(subject)) {
+			System.out.println("삭제가 완료되었습니다.");
+			return;
+		}
+		//실패하면 안내문구 출력 후 종료
+		System.out.println("등록되어있지 않은 정보입니다.");
+	}
+	
+	public SubjectSelf inputRequiredSubject() {
+		System.out.print("삭제할 과목 : ");
+		scan.nextLine();
+		String subjectName = scan.nextLine();
+		System.out.print("학년 : ");
+		int grade = nextInt();
+		System.out.print("학기 : ");
+		int semester = nextInt();
+		return new SubjectSelf(subjectName, grade, semester, 0, 0, 0);
 	}
 
 	private void studentDelete() {
-		Student std = inputStudent();
+		StudentSelf std = inputStudent();
 		
 		if(list.remove(std)) {
 			System.out.println("학생을 삭제했습니다.");
@@ -239,7 +409,7 @@ public class StudentManager implements Program {
 	}
 
 	private void studentSearch() {
-		Student std = inputStudent();
+		StudentSelf std = inputStudent();
 
 		int index = list.indexOf(std);
 
@@ -259,7 +429,7 @@ public class StudentManager implements Program {
 	}
 
 	private void prev() {
-		System.out.println("이전 메뉴로 돌아갑니다.");
+		System.out.println("이전으로 돌아갑니다.");
 		return;
 	}
 
@@ -301,69 +471,70 @@ public class StudentManager implements Program {
 			prev();
 			break;
 		default:
-			
+			defaultPrint();
 		}
 	}
 
 	private void subjectInsert() {
-		Subject sub = inputSubject();
-		
-		if(subjectList.contains(sub)) {
-			System.out.println("이미 등록된 과목명, 학년, 학기입니다.");
-			return;
-		}
-		
-		subjectList.add(sub);
-		System.out.println("과목이 추가되었습니다.");
-	}
-	/**과목명, 학년, 학기를 입력받아 과목 객체를 만들어서 반환하는 메소드
-	 * @return 과목명, 학년, 학기가 있는 만들어진 과목 객체
-	 * */
-	public Subject inputSubject() {
+		//과목명 입력
 		System.out.print("과목명 : ");
 		scan.nextLine();
 		String name = scan.nextLine();
-		System.out.print("학년 : ");
-		int grade = nextInt();
-		System.out.print("학기 : ");
-		int semester = nextInt();
-		
-		return new Subject(name, grade, semester);
+		//과목 리스트에 등록된 과목인지 확인해서 등록되었으면 안내문구 출력 후 종료
+		if(subjectList.contains(name)) {
+			System.out.println("이미 등록된 과목입니다.");
+			return;
+		}
+		//과목 리스트에 과목을 추가
+		subjectList.add(name);
+		System.out.println("과목이 추가되었습니다.");
 	}
 
 	private void subjectUpdate() {
+		//수정할 과목을 입력
+		System.out.print("과목 : ");
+		scan.nextLine();
+		String subject = scan.nextLine();
 		
+		if(!subjectList.equals(subject)) {
+			System.out.println("등록되지 않은 과목입니다.");
+			return;
+		}
+		
+		//새 과목명 입력
+		System.out.print("수정할 과목명 : ");
+		String newSubject = scan.nextLine();
+		//새 과목명이 이미 등록되어 있으면 안내문구 출력 후 종료
+		if(subjectList.equals(newSubject)) {
+			System.out.println("이미 등록된 과목입니다.");
+			return;
+		}
+		//아니면 수정할 과목명 삭제
+		subjectList.remove(subject);
+		//새 과목명 추가
+		subjectList.add(newSubject);
+		System.out.println("과목을 수정했습니다.");
 	}
 
 	private void subjectDelete() {
-		Subject sub = inputSubject();
-		
-		if(subjectList.remove(sub)) {
-			System.out.println("과목을 삭제했습니다.");
+		//삭제할 과목명을 입력
+		System.out.print("과목명 : ");
+		scan.nextLine();
+		String subject = scan.nextLine();
+		//리스트에서 과목을 삭제해서 성공하면 알림문구 출력 후 종료
+		if(subjectList.remove(subject)) {
+			System.out.println("과목이 삭제되었습니다.");
 			return;
 		}
-		
-		System.out.println("일치하는 과목이 없습니다.");
+		//실패하면 알림문구 출력
+		System.out.println("존재하는 과목이 없습니다.");
 	}
 
 	private void subjectSearch() {
-		Subject sub = inputSubject();
-		
-		int index = subjectList.indexOf(sub);
-		
-		if(index < 0) {
-			sub = null;
+		System.out.println("과목 목록");
+		for(String subject : subjectList) {
+			System.out.println(subject);
 		}
-		else {
-			sub = subjectList.get(index);
-		}
-		
-		if(sub == null) {
-			System.out.println("일치하는 과목이 없습니다.");
-			return;
-		}
-		
-		sub.print();
 	}
 	
 	private void exit() {

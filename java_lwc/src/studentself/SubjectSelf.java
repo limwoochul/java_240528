@@ -2,10 +2,12 @@ package studentself;
 
 import java.util.Objects;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
-public class Subject {
+@AllArgsConstructor
+public class SubjectSelf {
 	//과목명, 학년, 학기, 중간, 기말, 수행평가
 	private String name;
 	private int grade;
@@ -24,7 +26,7 @@ public class Subject {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Subject other = (Subject) obj;
+		SubjectSelf other = (SubjectSelf) obj;
 		return Objects.equals(name, other.name) && grade == other.grade && semester == other.semester;
 	}
 	
@@ -33,7 +35,7 @@ public class Subject {
 		return Objects.hash(name, grade, semester);
 	}
 	
-	public Subject(String name, int grade, int semester) {
+	public SubjectSelf(String name, int grade, int semester) {
 		this.name = name;
 		this.grade = grade;
 		this.semester = semester;
@@ -41,6 +43,12 @@ public class Subject {
 
 	public void print() {
 		System.out.println(grade + "학년 " + semester + "학기  " + name);
+	}
+
+	public void update(int midScore, int finalScore, int perfomScore) {
+		this.mid = midScore;
+		this.finals = finalScore;
+		this.performance = perfomScore;
 	}
 	
 	
