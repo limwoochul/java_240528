@@ -1,6 +1,11 @@
 package account;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.InputMismatchException;
 import java.util.List;
@@ -13,8 +18,9 @@ public class AccountManager implements Program {
 	private static Scanner scan = new Scanner(System.in);
 	
 	private List<Account> list = new ArrayList<Account>();
-	private static List<String> incomeList = new ArrayList<String>();
-	private static List<String> spendList = new ArrayList<String>();
+	private List<String> incomeList = Arrays.asList("월급", "용돈", "부수입");
+	private List<String> spendList = Arrays.asList("교통비", "식비", "취미", "기타");
+	private String fileName = "src/account/data.txt";
 	
 	@Override
 	public void printMenu() {
@@ -29,15 +35,28 @@ public class AccountManager implements Program {
 	}
 
 	@Override
+	public void save(String fileName) {
+		try(FileOutputStream fos = new FileOutputStream(fileName);
+			ObjectOutputStream oos = new ObjectOutputStream(fos)){
+			oos.writeObject(list);
+		} catch (Exception e) {
+		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public void load(String fileName) {
+		try(FileInputStream fis = new FileInputStream(fileName);
+			ObjectInputStream ois = new ObjectInputStream(fis)){
+			list = (List<Account>)ois.readObject();
+		} catch (Exception e) {
+		} 
+	}
+	
+	@Override
 	public void run() {
-		incomeList.add("월급");
-		incomeList.add("용돈");
-		incomeList.add("부수입");
-		
-		spendList.add("고정지출");
-		spendList.add("생활비");
-		spendList.add("기타");
 		int menu;
+		load(fileName);
 		do {
 			printbar();
 			printMenu();
@@ -49,6 +68,7 @@ public class AccountManager implements Program {
 				e.printStackTrace();
 			}
 		}while(menu != 5);
+		save(fileName);
 	}
 	
 
