@@ -19,10 +19,10 @@ public class ServerEx01 {
 		int port = 5001;
 		//전송할 데이터
 		List<String> list = Arrays.asList("홍길동", "임꺽정", "둘리", "고길동", "-1");
-
+		ServerSocket serverSocket;
 		//2. 서버용 소켓 객체 생성
 		try {
-			ServerSocket serverSocket = new ServerSocket(port);
+			 serverSocket = new ServerSocket(port);
 			
 			System.out.println("[대기중].....");
 			

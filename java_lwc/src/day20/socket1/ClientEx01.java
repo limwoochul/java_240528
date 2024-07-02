@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
+import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.Arrays;
@@ -14,12 +15,15 @@ public class ClientEx01 {
 
 	public static void main(String[] args) {
 		String ip = "192.168.30.189"; //서버 IP
+		String serverIP;
+
 		int port = 5001; //서버 포트
 		
 		List<String> list = Arrays.asList("21", "100", "23", "-1");
 		//1. 소켓을 생성하고 대기
 		System.out.println("[서버 연결 요청]");
-		try(Socket socket = new Socket(ip, port)){
+		try{
+			Socket socket = new Socket(ip, port);
 			System.out.println("[서버 연결 완료]");
 			//서버로 문자열 전송
 			OutputStream os = socket.getOutputStream();

@@ -9,6 +9,10 @@ public class IpEx01 {
 	public static void main(String[] args) {
 		//xxx.xxx.xxx.xxx : Ipv4
 		try {
+			String serverIP;
+			serverIP = InetAddress.getLocalHost().getHostAddress();
+			System.out.println(serverIP);
+			
 			InetAddress address = InetAddress.getByName("localhost");
 			System.out.println(address);
 			
