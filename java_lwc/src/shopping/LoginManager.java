@@ -4,22 +4,21 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
+import java.util.regex.Pattern;
 
 public class LoginManager {
 	private static Scanner scan = new Scanner(System.in);
 	private List<User> userList = new ArrayList<User>();
-	private List<String> findPwQuestion = Arrays.asList("1. 가장 존경하는 사람은?",
-														"2. 가장 좋아하는 노래는?",
-														"3. 가장 좋아하는 음식은?");
+	private List<String> findPwQuestion = Arrays.asList("1. 가장 존경하는 사람은?", "2. 가장 좋아하는 노래는?", "3. 가장 좋아하는 음식은?");
+	
 	public void printMenu() {
 		System.out.print(
-				"메인 메뉴\n"
-						+ "1. 회원가입\n"
-						+ "2. 로그인\n"
-						+ "3. 비밀번호 찾기\n"
-						+ "4. 관리자 로그인\n"
-						+ "5. 프로그램 종료\n"
-						+ "메뉴 선택 : ");
+				  "메인 메뉴\n"
+				+ "1. 회원가입\n"
+				+ "2. 로그인\n"
+				+ "3. 비밀번호 찾기\n"
+				+ "4. 프로그램 종료\n"
+				+ "메뉴 선택 : ");
 	}
 
 	public void run() {
@@ -27,6 +26,7 @@ public class LoginManager {
 		do {
 			printMenu();
 			menu = scan.nextInt();
+			printBar();
 			try {
 				runMenu(menu);
 			} catch (Exception e) {
@@ -47,9 +47,6 @@ public class LoginManager {
 			findPassword();
 			break;
 		case 4:
-			adminLogin();
-			break;
-		case 5:
 			exit();
 			break;
 		default:
@@ -61,23 +58,24 @@ public class LoginManager {
 		System.out.println("--------------");
 	}
 
+	//아이디 등록 메소드(아이디, 비밀번호, 이름, 주소, 핸드폰번호, 비밀번호찾기 질문과 답 입력받음)
 	private void register() {
 		System.out.print("아이디 : ");
-		String id = scan.next();
+		scan.nextLine();
+		String id = scan.nextLine();
 		if(!checkId(id)) {
 			printBar();
 			return;
 		}
 
 		System.out.print("비밀번호 : ");
-		String pw = scan.next();
+		String pw = scan.nextLine();
 		if(!checkPw(pw)) {
 			printBar();
 			return;
 		}
 
 		System.out.print("이름 : ");
-		scan.nextLine();
 		String name = scan.nextLine();
 		System.out.print("주소 : ");
 		String address = scan.nextLine();
@@ -100,14 +98,11 @@ public class LoginManager {
 		System.out.println("-----회원가입이 완료되었습니다.-----");
 	}
 
+	//아이디 형식이 맞는지 체크하는 메소드(공백X, 영문과숫자, 4~15자)
 	private boolean checkId(String id) {
-		if(id==null || id.length()<4 || id.length()>15) {
-			System.out.println("아이디는 4자에서 15자 사이여야 합니다.");
-			return false;
-		}
-
-		if(id.contains(" ")) {
-			System.out.println("공백을 포함할 수 없습니다.");
+		String regex = "^\\w{4,15}$";
+		if(!Pattern.matches(regex, id)) {
+			System.out.println("아이디는 공백없이 4자에서 15자 사이의 영문과 숫자로만 이뤄져야 합니다.");
 			return false;
 		}
 
@@ -117,18 +112,16 @@ public class LoginManager {
 				return false;
 			}
 		}
+		
 		System.out.println("사용 가능한 아이디입니다.");
 		return true;
 	}
 
+	//비밀번호 형식이 맞는지 체크하는 메소드(공백X, 영문과숫자, 6~15자)
 	private boolean checkPw(String pw) {
-		if (pw==null || pw.length() < 6 || pw.length() > 15) {
-			System.out.println("비밀번호는 6자에서 15자 사이여야 합니다.");
-			return false;
-		}
-
-		if(pw.contains(" ")) {
-			System.out.println("공백을 포함할 수 없습니다.");
+		String regex = "^\\w{6,15}$";
+		if (!Pattern.matches(regex, pw)){
+			System.out.println("비밀번호는 공백없이 6자에서 15자 사이의 영문과 숫자로만 이뤄져야 합니다.");
 			return false;
 		}
 
@@ -142,24 +135,36 @@ public class LoginManager {
 		return true;
 	}
 
+	//아이디, 비밀번호를 입력받아 로그인하는 메소드
 	private void userlogin() {
-		User user = checkUser();
-		if(user==null) {
-			System.out.println("아이디 또는 비밀번호가 잘못되었습니다.");
-			printBar();
-			return;
-		}
-
-		System.out.println("로그인 성공!");
-		printBar();
-	}
-
-	private User checkUser() {
 		System.out.print("아이디 : ");
 		String id = scan.next();
 		System.out.print("비밀번호 : ");
 		String pw = scan.next();
 		
+		User user = new User();
+		if(user.loginAdmin(id, pw)) {
+			System.out.println("관리자 로그인 성공!");
+			printBar();
+			//관리자메뉴 구동하는 메소드 불러오기
+		}
+		else {
+			user = checkUser(id, pw);
+			if(user==null) {
+				System.out.println("아이디 또는 비밀번호가 잘못되었습니다.");
+				printBar();
+				return;
+			}
+			
+			System.out.println("로그인 성공!");
+			printBar();
+			//온라인 쇼핑 구동하는 메소드 불러오기
+		}
+		
+	}
+
+	//저장된 리스트에 입력된 아이디와 비밀번호가 일치하는게 있는지 확인하는 메소드
+	private User checkUser(String id, String pw) {
 		for(User user : userList) {
 			if(user.getId().equals(id) && user.getPw().equals(pw)) {
 				return user;
@@ -168,6 +173,7 @@ public class LoginManager {
 		return null;
 	}
 	
+	//비밀번호 찾기 메소드
 	private void findPassword() {
 		System.out.print("아이디 : ");
 		String id = scan.next();
@@ -201,23 +207,6 @@ public class LoginManager {
 		
 		System.out.println("질문 또는 답변이 일치하지 않습니다.");
 		
-	}
-
-	private void adminLogin() {
-		System.out.print("관리자 아이디 : ");
-		String id = scan.next();
-		System.out.print("관리자 비밀번호 : ");
-		String pw = scan.next();
-		
-		AdminManager am = new AdminManager();
-		if(!am.loginAdmin(id, pw)) {
-			System.out.println("관리자 아이디 또는 비밀번호가 잘못되었습니다.");
-			printBar();
-			return;
-		}
-		
-		System.out.println("관리자 로그인 성공!");
-		printBar();
 	}
 
 	private void exit() {
