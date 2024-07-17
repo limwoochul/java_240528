@@ -126,26 +126,28 @@
 			$(this).css('border-color', 'black');
 		});
 
+		var offset = null;//마우스를 눌렀을 때 박스의 왼쪽 위의 점
+		var x = null; //마우스를 눌렀을 때 x좌표
+		var y = null; //마우스를 눌렀을 때 y좌표
 		$('.box4').mousemove(function(e){
 			if(!flag)
 				return;
-			var offset = $(this).offset();
-			var x = offset.left;
-			var y = offset.top;
-			var rx = e.pageX - x;
-			var ry = e.pageY - y;
-			$('#x').text(parseInt(rx));
-			$('#y').text(parseInt(ry));
+
+			var mx = e.pageX - x;
+			var my = e.pageY - y;
+			$('#x').text(parseInt(mx));
+			$('#y').text(parseInt(my));
 			$(this).css({
 				'position' : 'absolute',
-				'top' : e.pageY,
-				'left' : e.pageX,
-				'width' : 500
+				'top' : offset.top + my,
+				'left' : offset.left + mx,
+				'width' : $(this).width
 			})
 		});
 		var flag = false;
 		$(document).mousedown(function(){
 			flag = true;
+			offset = $(this).offset();
 		});
 		$(document).mouseup(function(){
 			flag = false;
