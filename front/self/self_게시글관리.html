@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>게시글 관리</title>
+	<script src="../static/js/jquery.min.js"></script>
+	<style>
+		.container{ margin: 0 auto; width: 500px;}
+		.form-group{ margin-bottom: 10px;}
+
+		.form-control{
+			display: block; box-sizing: border-box;
+			border: 1px solid black; margin-top: 5px;
+			min-height: 24px; line-height: 22px;
+			width: 100%; border-radius: 5px;
+		}
+		
+		#btn{
+			display: block; box-sizing: border-box;
+			width: 100%; border: 1px solid black; border-radius: 5px;
+			cursor: pointer; line-height: 24px;
+		}
+		.table{ border-collapse: collapse; width: 100%;}
+		.table th, .table td{border: 1px solid black; border-width: 1px 0; text-align: center;}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<h1>게시글 등록</h1>
+		<form action="">
+			<div class="form-group">
+				<label for="">제목 : </label>
+				<input type="text" name="title" id="title" class="form-control" placeholder="제목을 입력하세요">
+			</div>
+			<div class="form-group">
+				<label for="">작성자 : </label>
+				<input type="text" name="writer" id="writer" class="form-control" placeholder="작성자를 입력하세요">
+			</div>
+			<div class="form-group">
+				<label for="">내용 : </label>
+				<textarea rows="10" name="content" id="content" class="form-control" placeholder="내용을 입력하세요"></textarea>
+			</div>
+			<div class="form-group">
+				<button id="btn">등록</button>
+			</div>
+		</form>
+	</div>
+	<hr>
+	<div class="container">
+		<h1>게시글 리스트</h1>
+		<table class="table">
+			<thead>
+				<tr>
+					<th>번호</th>
+					<th>제목</th>
+					<th>작성자</th>
+					<th>조회수</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<th colspan="4">등록된 게시물이 없습니다.</th>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+	<script>
+		var list = [];
+		$('form').submit(function(){
+			var title = $('#title').val();
+			var writer = $('#writer').val();
+			var content = $('#content').val();
+		
+			var post = {
+				title : title,
+				writer : writer,
+				content : content,
+				views : 0	
+			}
+
+			list.unshift(post);
+
+			$('#title').val('');
+			$('#writer').val('');
+			$('#content').val('');
+
+			displayList(list);
+
+			return false;
+		});
+
+		function displayList(list){
+			var str = '';
+			if(list.length == 0){
+				str = `
+					<tr>
+					<th colspan="4">등록된 게시물이 없습니다.</th>
+					</tr>
+				`;
+			}
+
+			for(var i=0; i<list.length; i++){
+				str += `
+					<td>${list.length-i}</td>
+					<td>${list[i].title}</td>
+					<td>${list[i].writer}</td>
+					<td>${list[i].views}</td>
+				`;
+			}
+
+			$('.table tbody').html(str);
+		}
+	</script>
+</body>
+</html>
