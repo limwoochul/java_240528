@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>포트폴리오 문제</title>
+	<style>
+		.form-group>label, .form-group>input{
+			float: left;
+		}
+		.form-group::after{
+			display: block; content: ''; clear: both;
+		}
+		.form{
+			width: 50%;
+		}
+		.form-group>label{
+			width: 80px; text-align: center; font-weight: bold;
+		}
+		.form-control{
+			width: calc(100% - 100px); box-sizing: border-box; margin-bottom: 5px;
+			border: 1px solid black; border-radius: 3px;
+		}
+		.text-center{
+			text-align: center; margin-top: 15px;
+		}
+		.content{
+			line-height: 150px;
+		}
+		.btn{
+			cursor: pointer;
+		}
+
+		.table{
+			width: 100%; border: 1px solid black;
+		}
+		.table th, .table td{
+			border: 1px solid black;
+		}
+		.table thead, .table tfoot{
+			background-color: rgb(255, 160, 122); color: white;
+		}
+		.table tbody{
+			background-color: rgb(255, 255, 224);
+		}
+		.table .btn{
+			width: 100%;
+		}
+
+		.shortcut{ width: 10%;}
+		.table-num{ width: 5%;}
+		.table-writer{ width: 10%;}
+		.table-date{ width: 10%;}
+		.table-views{ width: 7%;}
+
+	</style>
+</head>
+<body>
+	<h1>포트폴리오 문제</h1>
+	<hr>
+	<fieldset>
+		<legend>공지사항 작성하기</legend>
+		<form action="insert.no" method="post" class="form">
+			<div class="form-group">
+				<label for="">제목</label>
+				<input type="text" name="title" id="title" placeholder="제목을 입력하시오." class="form-control">
+			</div>
+			<div class="form-group">
+				<label for="" class="content">내용</label>
+				<textarea rows="10" name="content" id="content" placeholder="내용을 입력하시오." class="form-control"></textarea>
+			</div>
+			<div class="form-group">
+				<label for="">첨부파일</label>
+				<button name="uploadFile" class="btn">파일 선택</button>
+				<span>선택된 파일 없음</span>
+			</div>
+			<div class="form-group text-center">
+				<button class="btn">작성하기</button>
+			</div>
+		</form>
+	</fieldset>
+	<hr>
+	<table class="table">
+		<thead>
+			<tr>
+				<th class="table-num">번호</th>
+				<th colspan="2" class="table-title">제목</th>
+				<th class="table-writer">작성자</th>
+				<th class="table-date">작성일</th>
+				<th class="table-views">조회수</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>9</td>
+				<td>공지사항 제목 9</td>
+				<td class="shortcut"><button class="btn">바로가기</button></td>
+				<td>user01</td>
+				<td>2021-03-29</td>
+				<td>34</td>
+			</tr>
+			<tr>
+				<td>6</td>
+				<td>공지사항 제목 6</td>
+				<td><button class="btn">바로가기</button></td>
+				<td>answ445</td>
+				<td>2021-03-12</td>
+				<td>67</td>
+			</tr>
+			<tr>
+				<td>3</td>
+				<td>공지사항 제목 3</td>
+				<td><button class="btn">바로가기</button></td>
+				<td>testg12</td>
+				<td>2021-03-01</td>
+				<td>98</td>
+			</tr>
+			<tr>
+				<td>2</td>
+				<td>공지사항 제목 2</td>
+				<td><button class="btn">바로가기</button></td>
+				<td>palwe3</td>
+				<td>2021-01-02</td>
+				<td>85</td>
+			</tr>
+			<tr>
+				<td>1</td>
+				<td>공지사항 제목 1</td>
+				<td><button class="btn">바로가기</button></td>
+				<td>xml23</td>
+				<td>2020-12-24</td>
+				<td>124</td>
+			</tr>
+		</tbody>
+		<tfoot>
+			<tr>
+				<th colspan="4">전체공지사항 갯수</th>
+				<th colspan="2">5개</th>
+			</tr>
+		</tfoot>
+	</table>
+</body>
+</html>
