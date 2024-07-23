@@ -172,7 +172,7 @@ public class LoginManager {
 		String pw = scan.next();
 
 		if(adminLogin(id,pw)) {
-			AdminManager am = new AdminManager(itemManager);
+			AdminManager am = new AdminManager(itemManager, userMap);
 			System.out.println("관리자 로그인 성공!");
 			am.run();			
 		}

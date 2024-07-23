@@ -4,6 +4,7 @@ import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.InputMismatchException;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
@@ -17,9 +18,11 @@ import program.Program;
 public class AdminManager implements Program {
     private Scanner scan = new Scanner(System.in);
     private ItemManager itemManager;
+    private Map<String, User> userMap;
 
-    public AdminManager(ItemManager itemManager) {
+    public AdminManager(ItemManager itemManager, Map<String, User> userMap) {
     	this.itemManager = itemManager;
+    	this.userMap = userMap;
     }
     
     @Override
@@ -34,7 +37,7 @@ public class AdminManager implements Program {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        } while (menu != 4);
+        } while (menu != 6);
     }
 
     @Override
@@ -50,6 +53,12 @@ public class AdminManager implements Program {
                 updateItem();
                 break;
             case 4:
+                viewAllItems();
+                break;
+            case 5:
+                viewAllUsers();
+                break;
+            case 6:
                 backMenu();
                 break;
             default:
@@ -65,8 +74,10 @@ public class AdminManager implements Program {
             "---관리자 메뉴---\n" +
             "1. 상품 등록\n" +
             "2. 상품 삭제\n" +
-            "3. 상품 업데이트\n" +
-            "4. 이전으로\n" +
+            "3. 상품 업데이트\n" + 
+            "4. 등록된 상품 조회\n" +
+            "5. 등록된 회원 조회\n" +
+            "6. 이전으로\n" +
             "메뉴 선택 : "
         );
     }
@@ -191,6 +202,24 @@ public class AdminManager implements Program {
         itemToUpdate.setItemInventory(newInventory);
 
         System.out.println("상품이 업데이트되었습니다: " + itemToUpdate);
+    }
+    
+    private void viewAllItems() {
+        printBar();
+        System.out.println("등록된 상품 조회");
+        for (Item item : itemManager.getItemList()) {
+            System.out.println(item.getItemNumber() + ". " + item.getItemName() + " / " + item.getItemPrice() + "원 / " + item.getItemInventory() + "개");
+        }
+    }
+
+    private void viewAllUsers() {
+        printBar();
+        System.out.println("등록된 회원 조회");
+        int index = 1;
+        for (User user : userMap.values()) {
+            System.out.println(index + ". " + user.getId() + " / " + user.getName() + " / " + user.getAddress() + " / " + user.getPhoneNumber());
+            index++;
+        }
     }
 
     private void backMenu() {
