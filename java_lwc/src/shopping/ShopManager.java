@@ -1,25 +1,22 @@
 package shopping;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import program.Program;
 
 public class ShopManager implements Program {
 	
-	private Scanner scan = new Scanner(System.in);
-	//장바구니에 담기 위해 회원 객체 추가
+	private Scanner scan;
+	//회원 객체 불러오기
 	private User user;
-	//이름 itemList로 변경 및 테스트용 샘플 리스트 추가
-	private List<Item> itemList = Arrays.asList(
-									new Item(1, "apple", "3000"),
-									new Item(2, "banana", "2000"),
-									new Item(3, "grape", "5000"));
-	public ShopManager(User user) {
+	//아이템 객체 불러오기
+	private ItemManager itemManager;
+
+	public ShopManager(User user, ItemManager itemManager) {
+		this.scan = new Scanner(System.in);
 		this.user = user;
-		this.itemList = new ArrayList<Item>();
+		this.itemManager = itemManager;
 	}
 
 	@Override
@@ -42,7 +39,7 @@ public class ShopManager implements Program {
 			
 			printMenu();
 			
-			menu = scan.nextInt();
+			menu = nextInt();
 			
 			try {
 				runMenu(menu);
@@ -73,11 +70,24 @@ public class ShopManager implements Program {
 		}
 	}
 
+	private int nextInt() {
+		try {
+			return scan.nextInt();
+		} catch (InputMismatchException e) {
+			scan.nextLine();
+			return Integer.MIN_VALUE;
+		}
+	}
+	
 	private void producAll() {
 		System.out.println("전체 물건 목록"); //문구 추가
 		
-		//향상된 for문으로 아이템리스트 출력  => item 클래스에 toString추가도 가능
-		for(Item item : itemList) {
+		//향상된 for문으로 아이템리스트 출력
+		for(Item item : itemManager.getItemList()) {
+			if(item == null) {
+				System.out.println("등록된 상품이 없습니다");
+				return;
+			}
 			System.out.println(item.getItemNumber() + ". " + item.getItemName() + " : " + item.getItemPrice() + "원");
 		}
 		System.out.print("장바구니에 추가할 물건 번호(취소는 -1 입력) : "); //장바구니 추가할지 문구 출력
@@ -92,7 +102,7 @@ public class ShopManager implements Program {
 		String searchName = scan.nextLine(); //nextLine으로 변경
 		System.out.println("검색 결과 목록"); //검색결과 문구 추가
 		//향상된 for문으로 검색어가 포함된 목록 출력
-        for (Item item : itemList) {
+        for (Item item : itemManager.getItemList()) {
             if (item.getItemName().contains(searchName)) {
                 System.out.println(item.getItemNumber() + ". " + item.getItemName() + " : " + item.getItemPrice() + "원");
             }
@@ -105,7 +115,7 @@ public class ShopManager implements Program {
 	
 	//장바구니에 아이템을 추가하는 메소드
 	private void addItemToCart(int itemNumber) {
-        for (Item item : itemList) {
+        for (Item item : itemManager.getItemList()) {
             if (item.getItemNumber() == itemNumber) {
                 user.getCart().add(item.getItemName());
                 System.out.println(item.getItemName() + "이 장바구니에 추가되었습니다.");
@@ -116,8 +126,8 @@ public class ShopManager implements Program {
 	}
 
 	private void cart() {
-		//장바구니 불러올 메소드
-		
+		CartManager cm = new CartManager(user);
+		cm.run();
 	}
 
 	private void prev() {

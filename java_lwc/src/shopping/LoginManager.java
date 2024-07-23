@@ -13,6 +13,7 @@ public class LoginManager {
 	private static Scanner scan = new Scanner(System.in);
 	private Map<String, User> userMap = new HashMap<>();
 	private List<String> findPwQuestion = Arrays.asList("1. 가장 존경하는 사람은?", "2. 가장 좋아하는 노래는?", "3. 가장 좋아하는 음식은?");
+	private ItemManager itemManager = new ItemManager();
 
 	public void printMenu() {
 		System.out.print(
@@ -169,7 +170,7 @@ public class LoginManager {
 		String pw = scan.next();
 
 		if(adminLogin(id,pw)) {
-			AdminManager am = new AdminManager();
+			AdminManager am = new AdminManager(itemManager);
 			System.out.println("관리자 로그인 성공!");
 			printBar();
 			am.run();			
@@ -184,7 +185,7 @@ public class LoginManager {
 
 			System.out.println("로그인 성공!");
 			//온라인 쇼핑 구동하는 메소드 불러오기
-			ShopManager sm = new ShopManager(user);
+			ShopManager sm = new ShopManager(user, itemManager);
 			sm.run();
 		}
 

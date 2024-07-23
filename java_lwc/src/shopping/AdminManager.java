@@ -2,9 +2,7 @@ package shopping;
 
 import java.text.NumberFormat;
 import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.InputMismatchException;
-import java.util.List;
 import java.util.Locale;
 import java.util.Scanner;
 import java.util.regex.Pattern;
@@ -18,9 +16,13 @@ import program.Program;
 // 4. 재고 관리 (관리자는 + 가능)
 public class AdminManager implements Program {
     private Scanner scan = new Scanner(System.in);
-    private List<Item> itemList = new ArrayList<>();
     private int itemNumber = 1; // 상품 번호 초기화
+    private ItemManager itemManager;
 
+    public AdminManager(ItemManager itemManager) {
+    	this.itemManager = itemManager;
+    }
+    
     @Override
     public void run() {
         int menu;
@@ -98,7 +100,7 @@ public class AdminManager implements Program {
 
         Item newItem = new Item(itemNumber, itemName, itemPrice);
         newItem.setItemInventory(itemInventory);
-        itemList.add(newItem);
+        itemManager.addItem(newItem);
         itemNumber++;
 
         System.out.println("상품이 등록되었습니다: " + newItem);
@@ -156,17 +158,10 @@ public class AdminManager implements Program {
     private void deleteItem() {
         System.out.print("삭제할 상품 번호: ");
         int itemNumber = nextInt();
-        Item itemToRemove = null;
-
-        for (Item item : itemList) {
-            if (item.getItemNumber() == itemNumber) {
-                itemToRemove = item;
-                break;
-            }
-        }
-
+        Item itemToRemove = itemManager.getItemNumber(itemNumber);
+   
         if (itemToRemove != null) {
-            itemList.remove(itemToRemove);
+            itemManager.removeItem(itemToRemove);
             System.out.println("상품이 삭제되었습니다: " + itemToRemove);
             printBar();
         } else {
@@ -178,14 +173,7 @@ public class AdminManager implements Program {
     private void updateItem() {
         System.out.print("수정할 상품 번호: ");
         int itemNumber = nextInt();
-        Item itemToUpdate = null;
-
-        for (Item item : itemList) {
-            if (item.getItemNumber() == itemNumber) {
-                itemToUpdate = item;
-                break;
-            }
-        }
+        Item itemToUpdate = itemManager.getItemNumber(itemNumber);
 
         if (itemToUpdate == null) {
             System.out.println("해당 상품을 찾을 수 없습니다.");
@@ -217,8 +205,4 @@ public class AdminManager implements Program {
         printBar();
     }
 
-    public static void main(String[] args) {
-        AdminManager adminManager = new AdminManager();
-        adminManager.run();
-    }
 }
