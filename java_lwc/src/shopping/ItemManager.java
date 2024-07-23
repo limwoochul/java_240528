@@ -6,6 +6,7 @@ import java.util.List;
 public class ItemManager {
 
 	private List<Item> itemList = new ArrayList<Item>();
+	private int nextItemNumber = 1;
 	
 	public List<Item> getItemList() {
 		return itemList;
@@ -13,6 +14,7 @@ public class ItemManager {
 	
 	public void addItem(Item item) {
 		itemList.add(item);
+		nextItemNumber++;
 	}
 	
 	public void removeItem(Item item) {
@@ -26,5 +28,9 @@ public class ItemManager {
 			}
 		}
 		return null;
+	}
+	
+	public int getNextItemNumber() {
+		return nextItemNumber;
 	}
 }

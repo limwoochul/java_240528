@@ -17,12 +17,12 @@ public class LoginManager {
 
 	public void printMenu() {
 		System.out.print(
-				"메인 메뉴\n"
-						+ "1. 회원가입\n"
-						+ "2. 로그인\n"
-						+ "3. 비밀번호 찾기\n"
-						+ "4. 프로그램 종료\n"
-						+ "메뉴 선택 : ");
+				  "---메인 메뉴---\n"
+				+ "1. 회원가입\n"
+				+ "2. 로그인\n"
+				+ "3. 비밀번호 찾기\n"
+				+ "4. 프로그램 종료\n"
+				+ "메뉴 선택 : ");
 	}
 
 	public void run() {
@@ -30,7 +30,6 @@ public class LoginManager {
 		do {
 			printMenu();
 			menu = nextInt();
-			printBar();
 			try {
 				runMenu(menu);
 			} catch (Exception e) {
@@ -74,6 +73,7 @@ public class LoginManager {
 
 	//아이디 등록 메소드(아이디, 비밀번호, 이름, 주소, 핸드폰번호, 비밀번호찾기 질문과 답 입력받음)
 	private void register() {
+		printBar();
 		System.out.print("아이디 : ");
 		scan.nextLine();
 		String id = scan.nextLine();
@@ -115,7 +115,8 @@ public class LoginManager {
 
 		User user = new User(id, pw, name, address, phoneNumber, question, answer, new ArrayList<>());
 		userMap.put(id, user);
-		System.out.println("-----회원가입이 완료되었습니다.-----");
+		System.out.println("회원가입이 완료되었습니다.");
+		printBar();
 	}
 
 	//아이디 형식이 맞는지 체크하는 메소드(공백X, 영문과숫자, 4~15자)
@@ -164,6 +165,7 @@ public class LoginManager {
 
 	//아이디, 비밀번호를 입력받아 로그인하는 메소드
 	private void userlogin() {
+		printBar();
 		System.out.print("아이디 : ");
 		String id = scan.next();
 		System.out.print("비밀번호 : ");
@@ -172,7 +174,6 @@ public class LoginManager {
 		if(adminLogin(id,pw)) {
 			AdminManager am = new AdminManager(itemManager);
 			System.out.println("관리자 로그인 성공!");
-			printBar();
 			am.run();			
 		}
 		else {
@@ -207,12 +208,14 @@ public class LoginManager {
 
 	//비밀번호 찾기 메소드
 	private void findPassword() {
+		printBar();
 		System.out.print("아이디 : ");
 		String id = scan.next();
 		User user = userMap.get(id);
 
         if (user == null) {
             System.out.println("일치하는 아이디가 없습니다.");
+            printBar();
             return;
         }
 
@@ -222,6 +225,7 @@ public class LoginManager {
 		int question = scan.nextInt();
 		if(question<1 || question>3) {
 			System.out.println("번호를 잘못 입력했습니다.");
+			printBar();
 			return;
 		}
 		System.out.print("답변 : ");
@@ -242,6 +246,7 @@ public class LoginManager {
 
 	private void exit() {
 		System.out.println("프로그램을 종료합니다.");
+		printBar();
 	}
 
 	private void wrongMenu() {

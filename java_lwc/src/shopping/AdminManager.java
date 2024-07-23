@@ -16,7 +16,6 @@ import program.Program;
 // 4. 재고 관리 (관리자는 + 가능)
 public class AdminManager implements Program {
     private Scanner scan = new Scanner(System.in);
-    private int itemNumber = 1; // 상품 번호 초기화
     private ItemManager itemManager;
 
     public AdminManager(ItemManager itemManager) {
@@ -30,7 +29,6 @@ public class AdminManager implements Program {
         do {
             printMenu();
             menu = nextInt();
-            printBar();
             try {
                 runMenu(menu);
             } catch (Exception e) {
@@ -64,7 +62,7 @@ public class AdminManager implements Program {
     @Override
     public void printMenu() {
         System.out.print(
-            "메뉴\n" +
+            "---관리자 메뉴---\n" +
             "1. 상품 등록\n" +
             "2. 상품 삭제\n" +
             "3. 상품 업데이트\n" +
@@ -87,6 +85,7 @@ public class AdminManager implements Program {
 	}
 
     private void insertItem() {
+    	printBar();
         scan.nextLine(); // clear buffer
 
         String itemName = getItemNameInput();
@@ -98,13 +97,12 @@ public class AdminManager implements Program {
         int itemInventory = getItemInventoryInput();
         if (itemInventory == -1) return;
 
+        int itemNumber = itemManager.getNextItemNumber();
         Item newItem = new Item(itemNumber, itemName, itemPrice);
         newItem.setItemInventory(itemInventory);
         itemManager.addItem(newItem);
-        itemNumber++;
 
         System.out.println("상품이 등록되었습니다: " + newItem);
-        printBar();
     }
 
     private String getItemNameInput() {
@@ -113,7 +111,6 @@ public class AdminManager implements Program {
 
         if (!Pattern.matches("^[a-zA-Z가-힣 ]+$", itemName)) {
             System.out.println("상품 이름은 한글과 영어만 가능합니다.");
-            printBar();
             return null;
         }
 
@@ -126,7 +123,6 @@ public class AdminManager implements Program {
         
         if (!isValidPrice(itemPrice)) {
             System.out.println("상품 가격은 숫자만 가능하며, 쉼표로 단위 구분이 가능합니다.");
-            printBar();
             return null;
         }
 
@@ -148,7 +144,6 @@ public class AdminManager implements Program {
 
         if (!Pattern.matches("^\\d+$", inventoryInput)) {
             System.out.println("상품 재고는 숫자만 가능합니다.");
-            printBar();
             return -1;
         }
 
@@ -156,6 +151,7 @@ public class AdminManager implements Program {
     }
 
     private void deleteItem() {
+    	printBar();
         System.out.print("삭제할 상품 번호: ");
         int itemNumber = nextInt();
         Item itemToRemove = itemManager.getItemNumber(itemNumber);
@@ -163,21 +159,19 @@ public class AdminManager implements Program {
         if (itemToRemove != null) {
             itemManager.removeItem(itemToRemove);
             System.out.println("상품이 삭제되었습니다: " + itemToRemove);
-            printBar();
         } else {
             System.out.println("해당 상품을 찾을 수 없습니다.");
-            printBar();
         }
     }
 
     private void updateItem() {
+    	printBar();
         System.out.print("수정할 상품 번호: ");
         int itemNumber = nextInt();
         Item itemToUpdate = itemManager.getItemNumber(itemNumber);
 
         if (itemToUpdate == null) {
             System.out.println("해당 상품을 찾을 수 없습니다.");
-            printBar();
             return;
         }
 
@@ -197,12 +191,10 @@ public class AdminManager implements Program {
         itemToUpdate.setItemInventory(newInventory);
 
         System.out.println("상품이 업데이트되었습니다: " + itemToUpdate);
-        printBar();
     }
 
     private void backMenu() {
         System.out.println("이전 메뉴로 돌아갑니다.");
-        printBar();
     }
 
 }
