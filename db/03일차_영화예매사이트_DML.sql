@@ -52,3 +52,42 @@ insert into casting values
     (null, '블라인드 앨', 7, 1),
     (null, '도핀더', 8, 1),
     (null, '패러독스', 9, 1);
+    
+# CGV 강남을 등록. 상영관 : 3, 좌석 : 30
+# 1관 : A1~A3, B1~B3, C1~C4
+# 2관 : A1~A4, B1~B4, C1~C2
+# 3관 : A1~A2, B1~B2, C1~C2, D1~D2, E1~E2
+insert into theater values
+	(null, 'CGV강남', 3, 30, '서울특별시 강남구 강남대로 438', '서울');
+insert into screen values
+	(null, '1관', 10, 1), (null, '2관', 10, 1), (null, '3관', 10, 1);
+insert into seat values
+	(null, 'A1', 1), (null, 'A2', 1), (null, 'A3', 1),
+	(null, 'B1', 1), (null, 'B2', 1), (null, 'B3', 1),
+	(null, 'C1', 1), (null, 'C2', 1), (null, 'C3', 1), (null, 'C4', 1),
+    (null, 'A1', 2), (null, 'A2', 2), (null, 'A3', 2), (null, 'A4', 2),
+	(null, 'B1', 2), (null, 'B2', 2), (null, 'B3', 2), (null, 'B4', 2),
+	(null, 'C1', 2), (null, 'C2', 2),
+    (null, 'A1', 3), (null, 'A2', 3), (null, 'B1', 3), (null, 'B2', 3),
+    (null, 'C1', 3), (null, 'C2', 3), (null, 'D1', 3), (null, 'D2', 3),
+    (null, 'E1', 3), (null, 'E2', 3);
+
+# CGV영등포를 등록. 상영관 : 4, 좌석 : 44
+# 1관 : A1~A3, B1~B3, C1~C4
+# 2관 : A1~A4, B1~B4, C1~C2
+# 3관 : A1~A3, B1~B3, C1~C3, D1~D3
+# 4관 : A1~A6, B1~B6
+insert into theater values(null, '영등포CGV', 4, 44, '서울특별시 영등포구 영중로 15', '서울');
+insert into screen values(null, '1관', 10, 1), (null, '2관', 10, 1), (null, '3관', 12, 1), (null, '4관', 12, 1);
+insert into seat values(null, 'A1', 4), (null, 'A2', 4), (null, 'A3', 4),
+	(null, 'B1', 4), (null, 'B2', 4), (null, 'B3', 4),
+	(null, 'C1', 4), (null, 'C2', 4), (null, 'C3', 4), (null, 'C4', 4),
+    (null, 'A1', 5), (null, 'A2', 5), (null, 'A3', 5), (null, 'A4', 5),
+	(null, 'B1', 5), (null, 'B2', 5), (null, 'B3', 5), (null, 'B4', 5),
+	(null, 'C1', 5), (null, 'C2', 5),
+    (null, 'A1', 6), (null, 'A2', 6), (null, 'A3', 6),
+    (null, 'B1', 6), (null, 'B2', 6), (null, 'B3', 6),
+    (null, 'C1', 6), (null, 'C2', 6), (null, 'C3', 6),
+    (null, 'D1', 6), (null, 'D2', 6), (null, 'D3', 6),
+    (null, 'A1', 7), (null, 'A2', 7), (null, 'A3', 7), (null, 'A4', 7), (null, 'A5', 7), (null, 'A6', 7),
+    (null, 'B1', 7), (null, 'B2', 7), (null, 'B3', 7), (null, 'B4', 7), (null, 'B5', 7), (null, 'B6', 7);
