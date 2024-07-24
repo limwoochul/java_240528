@@ -116,10 +116,20 @@ WHERE
             
 # 장르별 등록된 영화 개수를 조회하는 쿼리
 SELECT 
+    GE_NAME, COUNT(MG_NUM)
+FROM
+    MOVIE_GENRE
+RIGHT JOIN
+		GENRE ON GE_NAME = MG_GE_NAME
+GROUP BY GE_NAME;
+
+# 개봉한 영화를 조회하는 쿼리
+SELECT * FROM MOVIE WHERE MO_DATE <= NOW();
+
+# 오늘부터 한달 사이에 개봉한 영화를 조회하는 쿼리
+SELECT 
     *
 FROM
-    GENRE
-    JOIN
-		MOVIE_GENRE ON MG_GE_NAME = GE_NAME
-    JOIN
-		MOVIE ON MG_MO_NUM = MO_NUM;
+    MOVIE
+WHERE
+    MO_DATE BETWEEN DATE_SUB(NOW(), INTERVAL 1 MONTH) AND NOW();

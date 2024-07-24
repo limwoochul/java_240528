@@ -42,18 +42,29 @@ WHERE
 
 # 가전 제품과 가격이 일치하는 제품들을 조회하는 쿼리(가전 제품은 제외)
 # 방법1
-SELECT
-	*
+SELECT 
+    *
 FROM
-	PRODUCT
+    PRODUCT
 WHERE
-	PR_PRICE = ANY(SELECT PR_PRICE FROM PRODUCT WHERE PR_CA_CODE = 'AB')
-    AND PR_CA_CODE != 'AB';
+    PR_PRICE = ANY (SELECT 
+            PR_PRICE
+        FROM
+            PRODUCT
+        WHERE
+            PR_CA_CODE = 'AB')
+        AND PR_CA_CODE != 'AB';
 #방법2
-SELECT
-	*
+SELECT 
+    *
 FROM
-	PRODUCT
+    PRODUCT
 WHERE
-	PR_PRICE = (SELECT PR_PRICE FROM PRODUCT WHERE PR_CA_CODE = 'AB');
+    PR_PRICE IN (SELECT 
+            PR_PRICE
+        FROM
+            PRODUCT
+        WHERE
+            PR_CA_CODE = 'AB')
+		AND PR_CA_CODE != 'AB';
 
