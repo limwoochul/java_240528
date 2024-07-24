@@ -246,12 +246,12 @@ public class CartManager implements Program {
 		String str = scan.next();
 
 		// 3-1 'y' 입력 시, ' 비우기가 완료되었습니다. ' 를 출력하며, 해당 아이디에 포함된 리스트를 전체 삭제.
-		if(str.equals('y') || str.equals('Y')){
+		if(str.equals("y") || str.equals("Y")){
 			user.getCart().clear();
 			System.out.println("장바구니가 비워졌습니다.");
 		}
 		// 3-2 'n' 입력 시, ' 메뉴로 돌아갑니다. ' 출력 후, 메뉴로 ...
-		else if(str.equals('n') || str.equals('N')){
+		else if(str.equals("n") || str.equals("N")){
 			System.out.println("메뉴로 돌아갑니다.");
 			return;
 		}

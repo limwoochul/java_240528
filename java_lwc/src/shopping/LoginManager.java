@@ -116,7 +116,6 @@ public class LoginManager {
 		User user = new User(id, pw, name, address, phoneNumber, question, answer, new ArrayList<>());
 		userMap.put(id, user);
 		System.out.println("회원가입이 완료되었습니다.");
-		printBar();
 	}
 
 	//아이디 형식이 맞는지 체크하는 메소드(공백X, 영문과숫자, 4~15자)
@@ -180,7 +179,6 @@ public class LoginManager {
 			User user = checkUser(id, pw);
 			if(user==null) {
 				System.out.println("아이디 또는 비밀번호가 잘못되었습니다.");
-				printBar();
 				return;
 			}
 
@@ -215,7 +213,6 @@ public class LoginManager {
 
         if (user == null) {
             System.out.println("일치하는 아이디가 없습니다.");
-            printBar();
             return;
         }
 
@@ -225,7 +222,6 @@ public class LoginManager {
 		int question = scan.nextInt();
 		if(question<1 || question>3) {
 			System.out.println("번호를 잘못 입력했습니다.");
-			printBar();
 			return;
 		}
 		System.out.print("답변 : ");
@@ -235,12 +231,10 @@ public class LoginManager {
 		if(user.getFindPwQuestionNum() == question 
 				&& user.getFindPwAnswer().equals(answer)) {
 			System.out.println("비밀번호는 [" + user.getPw() + "] 입니다.");
-			printBar();
 			return;
 		}
 
 		System.out.println("질문 또는 답변이 일치하지 않습니다.");
-		printBar();
 
 	}
 
@@ -251,6 +245,5 @@ public class LoginManager {
 
 	private void wrongMenu() {
 		System.out.println("올바른 메뉴를 선택하세요.");
-		printBar();
 	}
 }
