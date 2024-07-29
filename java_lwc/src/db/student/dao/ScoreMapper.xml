@@ -4,9 +4,9 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="db.student.dao.ScoreDAO">
 	<select id="selectScore" resultType="ScoreVO">
-		select * from score
+		select * from score 
 		where
-			sc_st_key = #{st_key}
+			sc_st_key = #{st_key} 
 			and sc_su_key = #{su_key}
 	</select>
 	<insert id="insertScore">
@@ -19,16 +19,16 @@
 			#{score.sc_su_key})
 	</insert>
 	<delete id="deleteScore">
-		delete * from score
+		delete from score 
 		where
-			sc_st_key = #{st_key}
-			and sc_su_key = #{su_key}
+			sc_st_key = #{st_key} 
+			and sc_su_key = #{su_key} 
 	</delete>
 	<update id="updateScore">
-		update score
+		update score 
 		set
 			sc_midTerm = #{score.sc_midTerm},
-			sc_finalTerm #{score.sc_finalTerm},
+			sc_finalTerm = #{score.sc_finalTerm},
 			sc_performance = #{score.sc_performance}
 		where
 			sc_st_key = #{score.sc_st_key}
