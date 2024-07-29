@@ -76,4 +76,29 @@ public class ScoreServiceImp implements ScoreService {
 		return false;
 	}
 
+	@Override
+	public boolean updateScore(StudentVO std, SubjectVO subject, ScoreVO score) {
+		//등록되지 않은 과목이면 false를 반환
+		//입력한 과목 정보를 DB에서 가져옴
+		SubjectVO dbSubject = subjectDao.selectSubject(subject);
+		
+		if(dbSubject == null) {
+			return false;
+		}
+	
+		//선택한 과목이 이미 학생 성적에 등록되어 있지 않으면 false를 반환
+		StudentVO dbStd = studentDao.selectStudent(std);
+		if(dbStd == null) {
+			return false;
+		}
+		ScoreVO dbScore = scoreDao.selectScore(dbStd.getSt_key(), dbSubject.getSu_key());
+		if(dbScore == null) {
+			return false;
+		}
+		
+		score.setSc_key(dbStd.getSt_key());
+		score.setSc_su_key(dbSubject.getSu_key());
+		return scoreDao.updateScore(score);
+	}
+
 }

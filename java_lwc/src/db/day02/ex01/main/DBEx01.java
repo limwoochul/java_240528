@@ -23,7 +23,7 @@ public class DBEx01 {
 		System.out.println(list);
 		ArrayList<StudentVO> list2 = studentDao.selectStudentList2();
 		System.out.println(list2);
-		StudentVO student = studentDao.selectStudentByKey(1);
+		StudentVO student = studentDao.selectStudentByKey(2);
 		System.out.println(student);
 	}
 
