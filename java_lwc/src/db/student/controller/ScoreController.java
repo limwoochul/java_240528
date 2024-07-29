@@ -16,13 +16,13 @@ public class ScoreController {
 	private ScoreService scoreService = new ScoreServiceImp();
 	private SubjectService subjectService = new SubjectServiceImp();
 	private Scanner scan;
-		
+	
 	public ScoreController(Scanner scan) {
 		this.scan = scan;
 	}
 
 	public void insertScore() {
-		
+				
 		//등록된 과목을 가져옴
 		List<SubjectVO> subjectList = subjectService.selectSubjectNameList();
 		if(subjectList.size() == 0) {
@@ -43,9 +43,10 @@ public class ScoreController {
 		}
 		else {
 			System.out.println("학생 성적을 등록하지 못했습니다.");
-		}		
+		}
+		
+		
 	}
-	
 	public StudentVO inputStudent() {
 		//학년, 반, 번호, 이름을 입력
 		System.out.print("학년 : ");
@@ -56,8 +57,8 @@ public class ScoreController {
 		int num = scan.nextInt();
 		return new StudentVO(grade, classNum, num, "");
 	}
-	
 	private ScoreVO inputScore() {
+		
 		System.out.print("중간 : ");
 		int midterm = scan.nextInt();
 		System.out.print("기말 : ");
@@ -67,7 +68,6 @@ public class ScoreController {
 		ScoreVO score = new ScoreVO(midterm, finals, performace);
 		return score;
 	}
-	
 	public SubjectVO inputSubject() {
 		System.out.print("과목 : ");
 		scan.nextLine();
@@ -82,12 +82,11 @@ public class ScoreController {
 	public void deleteScore() {
 		//학생 정보를 입력하여 객체를 생성
 		StudentVO std = inputStudent();
-
+		
 		//삭제할 과목, 학년, 학기 정보를 입력
 		//과목, 학년, 학기를 이용해서 객체를 생성
 		SubjectVO subject = inputSubject();
-
-		//학생 과목 리스트에서 과목 객체를 삭제하여 성공하면 안내문구 출력 후 종료
+		
 		if(scoreService.deleteScore(std, subject)) {
 			System.out.println("과목 성적을 삭제했습니다.");
 			return;
@@ -95,7 +94,6 @@ public class ScoreController {
 		else {
 			System.out.println("과목 성적을 삭제하지 못했습니다.");
 		}
-
 	}
 
 	public void updateScore() {
@@ -105,16 +103,14 @@ public class ScoreController {
 		//수정할 과목을 입력
 		SubjectVO subject = inputSubject();
 		
-		//수정할 성적을 입력
+		//수정할 성적을 입력 
 		ScoreVO score = inputScore();
 		
 		if(scoreService.updateScore(std, subject, score)) {
-			System.out.println("과목 성적을 수정했습니다.");			
+			System.out.println("과목 성적을 수정했습니다.");
 		}
 		else {
 			System.out.println("과목 성적을 수정하지 못했습니다.");
 		}
-		
-		
 	}
 }

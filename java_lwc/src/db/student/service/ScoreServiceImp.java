@@ -1,6 +1,5 @@
 package db.student.service;
 
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
@@ -38,10 +37,10 @@ public class ScoreServiceImp implements ScoreService {
 			e.printStackTrace();
 		}
 	}
-	
+
 	@Override
 	public boolean insertScore(StudentVO std, SubjectVO subject, ScoreVO score) {
-		
+
 		//등록되지 않은 과목이면 false를 반환
 		//입력한 과목 정보를 DB에서 가져옴
 		SubjectVO dbSubject = subjectDao.selectSubject(subject);
@@ -49,7 +48,7 @@ public class ScoreServiceImp implements ScoreService {
 		if(dbSubject == null) {
 			return false;
 		}
-	
+		
 		//선택한 과목이 이미 학생 성적에 등록되어 있으면 false를 반환
 		StudentVO dbStd = studentDao.selectStudent(std);
 		if(dbStd == null) {
@@ -60,7 +59,7 @@ public class ScoreServiceImp implements ScoreService {
 			return false;
 		}
 		
-		score.setSc_key(dbStd.getSt_key());
+		score.setSc_st_key(dbStd.getSt_key());
 		score.setSc_su_key(dbSubject.getSu_key());
 		return scoreDao.insertScore(score);
 	}
@@ -72,8 +71,7 @@ public class ScoreServiceImp implements ScoreService {
 		if(dbStd == null || dbSubject == null) {
 			return false;
 		}
-		//return scoreDao.deleteScore(dbStd.getSt_key(), dbSubject.getSu_key());
-		return false;
+		return scoreDao.deleteScore(dbStd.getSt_key(), dbSubject.getSu_key());
 	}
 
 	@Override
@@ -85,8 +83,8 @@ public class ScoreServiceImp implements ScoreService {
 		if(dbSubject == null) {
 			return false;
 		}
-	
-		//선택한 과목이 이미 학생 성적에 등록되어 있지 않으면 false를 반환
+		
+		//선택한 과목이 학생 성적에 등록되어 있지 않으면 false를 반환
 		StudentVO dbStd = studentDao.selectStudent(std);
 		if(dbStd == null) {
 			return false;
@@ -96,9 +94,8 @@ public class ScoreServiceImp implements ScoreService {
 			return false;
 		}
 		
-		score.setSc_key(dbStd.getSt_key());
+		score.setSc_st_key(dbStd.getSt_key());
 		score.setSc_su_key(dbSubject.getSu_key());
 		return scoreDao.updateScore(score);
 	}
-
 }
