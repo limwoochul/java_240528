@@ -39,3 +39,33 @@ INSERT INTO PRODUCT(PR_CODE, PR_NAME, PR_CONTENT, PR_PRICE, PR_CA_NUM)
 SELECT 'ACC001', '금 목걸이', '부의 상징.', '100000', CA_NUM
 FROM CATEGORY
 WHERE CA_NAME = '악세서리';
+
+# abc123회원이 CLO001번 제품을 장바구니에 3개 담았을 때 쿼리
+INSERT INTO BASKET(BA_AMOUNT, BA_ME_ID, BA_PR_CODE) VALUES(3, 'abc123', 'CLO001');
+# abc123회원이 CLO001번 제품을 장바구니에 2개 담았을 때 쿼리
+UPDATE BASKET SET BA_AMOUNT = 2 WHERE BA_PR_CODE = 'CLO001' AND BA_ME_ID = 'abc123';
+
+# abc123회원이 ACC001 제품을 장바구니에 1개 담았을 때 쿼리
+INSERT INTO BASKET(BA_AMOUNT, BA_ME_ID, BA_PR_CODE) VALUES(1, 'abc123', 'ACC001');
+# abc123회원이 장바구니에 있는 모든 제품을 구매했을 때 쿼리
+INSERT INTO BUY(BU_PR_CODE, BU_ME_ID, BU_AMOUNT, BU_STATE, BU_DATE) 
+VALUES('CLO001', 'abc123', 3, '구매', NOW()), ('ACC001', 'abc123', 1, '구매', NOW());
+
+# 장바구니에서 구매를 하면 장바구니에 있는 항목을 제거해야 함.
+DELETE FROM BASKET WHERE BA_PR_CODE = 'CLO001' AND BA_ME_ID = 'abc123';
+DELETE FROM BASKET WHERE BA_PR_CODE = 'ACC001' AND BA_ME_ID = 'abc123';
+
+# abc123회원이 id : abc123, pw : abc1234로 로그인 시도했을 때 실행해야 하는 쿼리
+# => 로그인 실패 => 로그인 실패횟수 증가
+UPDATE MEMBER SET ME_FAIL = ME_FAIL + 1 WHERE ME_ID = 'abc123';
+
+# abc123회원이 로그인 시도가 성공했을 때 실행해야 하는 쿼리
+UPDATE MEMBER SET ME_FAIL = 0 WHERE ME_ID = 'abc123';
+
+# abc123회원이 비번찾기를 시도해서 인증코드가 123asd가 발급됐을 때 실행해야하는 쿼리
+INSERT CODE(CO_ME_ID, CO_CODE, CO_LIMIT)
+VALUES('abc123', '123asd', DATE_ADD(NOW(), INTERVAL 5 MINUTE));
+
+# abc123회원이 인증코드를 입력해서 비번을 abc1234로 수정했을 때 실행해야하는 쿼리
+UPDATE MEMBER SET ME_PW = 'abc1234' WHERE ME_ID = 'abc123';
+DELETE FROM CODE WHERE CO_ME_ID = 'abc123';
