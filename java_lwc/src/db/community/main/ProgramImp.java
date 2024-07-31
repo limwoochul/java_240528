@@ -83,8 +83,6 @@ public class ProgramImp implements Program {
 		PrintController.printBar();
 		System.out.println(member.getMe_id() + "님 환영합니다.");
 		PrintController.printBar();
-		System.out.println("관리자님 환영합니다.");
-		PrintController.printBar();
 		char menu = '0';
 		do {
 			PrintController.printUserMenu();
