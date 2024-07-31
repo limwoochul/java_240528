@@ -1,4 +1,4 @@
-package shopping;
+package shoppingjava;
 
 public class Main {
 

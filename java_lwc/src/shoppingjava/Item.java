@@ -1,4 +1,4 @@
-package shopping;
+package shoppingjava;
 
 import java.util.Objects;
 

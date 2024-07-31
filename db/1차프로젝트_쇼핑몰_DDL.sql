@@ -1,8 +1,8 @@
-DROP DATABASE IF EXISTS SHOPPINGSELF;
+DROP DATABASE IF EXISTS SHOPPING;
 
-CREATE DATABASE IF NOT EXISTS SHOPPINGSELF;
+CREATE DATABASE IF NOT EXISTS SHOPPING;
 
-USE SHOPPINGSELF;
+USE SHOPPING;
 
 DROP TABLE IF EXISTS `product`;
 
@@ -31,6 +31,7 @@ CREATE TABLE `member` (
 	`me_name`	varchar(15)			NOT NULL,
 	`me_phone`	varchar(15)			NOT NULL,
 	`me_address`	varchar(100)	NOT NULL,
+	`me_authority`	varchar(5)		NOT NULL DEFAULT 'USER',
 	`me_answer`	varchar(15)			NOT NULL,
 	`me_qu_num`	int					NOT NULL
 );
@@ -48,7 +49,6 @@ CREATE TABLE `buy` (
 	`bu_num`	int primary key auto_increment	NOT NULL,
 	`bu_amount`	int								NOT NULL DEFAULT 1,
 	`bu_state`	varchar(10)						NOT NULL DEFAULT '구매',
-	`bu_date`	datetime						NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	`bu_pr_num`	int								NOT NULL,
 	`bu_me_id`	varchar(15)						NOT NULL
 );

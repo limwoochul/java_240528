@@ -1,1 +1,0 @@
-INSERT INTO CATEGORY(CG_NAME) VALUES('과일'),('야채'),('고기'),('생선');
