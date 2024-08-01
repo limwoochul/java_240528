@@ -4,14 +4,18 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
+import javax.management.RuntimeErrorException;
+
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
 import db.community.dao.PostDAO;
+import db.community.model.vo.CommentVO;
 import db.community.model.vo.CommunityVO;
 import db.community.model.vo.PostVO;
+import db.community.pagenation.Criteria;
 
 public class PostServiceImp implements PostService{
 
@@ -107,10 +111,11 @@ public class PostServiceImp implements PostService{
 		if(!checkString(post.getPo_content())) return false;
 		
 		//다오에게 게시글VO를 주면서 게시글을 등록하라고 요청한 후 성공 여부를 반환
-		//System.out.println(post); //기본키 0
-		boolean res = postDao.insertPost(post);
-		//System.out.println(post); //추가된 게시글의 기본키가 나옴
-		return res;
+		try {
+			return postDao.insertPost(post);			
+		} catch(Exception e) {
+			return false;
+		}
 	}
 	
 	//문자열이 null이거나 공백으로 된 문자열이면 false, 아니면 true
@@ -119,5 +124,60 @@ public class PostServiceImp implements PostService{
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	public List<PostVO> getPostList(Criteria cri) {
+		if(cri == null) {
+			throw new RuntimeException();
+		}
+		return postDao.selectPostList(cri);
+	}
+
+	@Override
+	public PostVO getPost(int poNum) {
+		return postDao.selectPost(poNum);
+	}
+
+	@Override
+	public int selectPostListTotalCount(Criteria cri) {
+		if(cri == null) {
+			return 0;
+		}
+		return postDao.selectPostListCount(cri);
+	}
+
+	@Override
+	public boolean deletePost(int po_num) {
+		return postDao.deletePost(po_num);
+	}
+
+	@Override
+	public boolean updatePost(PostVO post) {
+		if(post == null) {
+			return false;
+		}
+		if(!checkString(post.getPo_title()) || !checkString(post.getPo_content())){
+			return false;
+		}
+		return postDao.updatePost(post);
+	}
+
+	@Override
+	public boolean insertComment(CommentVO comment) {
+		if(comment == null) return false;
+		if(!checkString(comment.getCm_content())) return false;
+		
+		return postDao.insertComment(comment);
+	}
+
+	@Override
+	public List<CommentVO> getCommentList(int po_num) {
+		return postDao.selectCommentList(po_num);
+	}
+
+	@Override
+	public void updatePostView(int poNum) {
+		postDao.updatePostView(poNum);
 	}
 }

@@ -12,6 +12,6 @@ public class CommunityVO {
 	
 	@Override
 	public String toString() {
-		return "CommunityVO [co_num=" + co_num + ", co_name=" + co_name + "]";
+		return co_num + ". " + co_name;
 	}
 }
