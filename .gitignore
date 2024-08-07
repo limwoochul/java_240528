@@ -4,3 +4,5 @@
 .settings/
 
 java_lwc/.gitignore
+
+MANIFEST.MF
