@@ -10,8 +10,8 @@
 </head>
 <body>
 <jsp:include page="/WEB-INF/views/common/header.jsp"/>
-<div class="container">
+<div class="container"></div>
 	<h1>메인 페이지</h1>
-</div>
+
 </body>
 </html>
