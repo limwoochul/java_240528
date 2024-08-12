@@ -7,36 +7,17 @@
 <meta charset="UTF-8">
 <title>쇼핑몰</title>
 <jsp:include page="/WEB-INF/views/common/head.jsp"/>
-<style type="text/css">
-.list-community{
-	list-style: none; display: flex; flex-wrap: wrap;	
-}
-.item-community{
-	width: 33.33%; height: 80px; box-sizing: border-box; padding: 10px;
-}
-.link-community{
-	display: block; border: 1px solid black; box-sizing: border-box;
-	height: 100%; text-align: center; line-height: 58px; font-size:24px;
-	text-decoration: none; color: black;
-}
-.link-community:hover{
-	text-decoration: none; color: white; background-color: tomato;
-}
-</style>
 </head>
 <body>
 <jsp:include page="/WEB-INF/views/common/header.jsp"/>
 <div class="container">
 	<h1>쇼핑몰 목록</h1>
 	<ul class="list-community">
-		<c:forEach items="${list}" var="co">
-			<li class="item-community">
-				<c:url var="url" value="/post/list">
-					<c:param name="co_num" value="${co.co_num}"></c:param>
-				</c:url>
-				<a href="${url}" class="link-community">${co.co_name}</a>
-			</li>
-		</c:forEach>
+		<div class="btn-group-vertical">
+			<a href="/shoppingmall/searchproductall" class="btn btn-primary">상품 전체조회</a>
+			<a type="/shoppingmall/searchproductname" class="btn btn-primary">상품 이름으로 검색</a>
+			<a type="/shoppingmall/mypage" class="btn btn-primary">마이페이지</a>
+		</div>
 	</ul>
 </div>
 </body>

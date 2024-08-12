@@ -5,7 +5,7 @@
 <mapper namespace="kr.kh.app.dao.PostDAO">
 
 	<select id="selectCommunityList" resultType="CommunityVO">
-		select * from community order by co_num;
+		select * from community order by co_num
 	</select>
 	<select id="selectCommunity" resultType="CommunityVO">
 		select * from community where co_num = #{co_num}
