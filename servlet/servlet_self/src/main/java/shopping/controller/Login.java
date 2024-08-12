@@ -27,11 +27,9 @@ public class Login extends HttpServlet {
 		String id = request.getParameter("id");
 		String pw = request.getParameter("pw");
 		
-		LoginDTO member = new LoginDTO(id, pw);
+		LoginDTO member = new LoginDTO(id, pw, "", "", "", 0, "");
 		
 		MemberVO user = memberService.login(member);
-		
-		System.out.println(user);
 		
 		if(user == null) {
 			request.setAttribute("msg", "로그인 실패!");

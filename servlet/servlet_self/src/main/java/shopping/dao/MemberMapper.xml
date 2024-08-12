@@ -4,6 +4,11 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="shopping.dao.MemberDAO">
 
+	<insert id="insertMember">
+		insert into member(me_id, me_pw, me_name, me_phone, me_address, me_qu_num, me_answer)
+		values(#{me.id}, #{me.pw}, #{me.name}, #{me.phone}, #{me.address}, #{me.question}, #{me.answer})
+	</insert>
+
 	<select id="selectMember" resultType="MemberVO">
 		select * from member where me_id = #{id}
 	</select>
