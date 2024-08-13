@@ -14,9 +14,9 @@
 	<h1>쇼핑몰 목록</h1>
 	<ul class="list-community">
 		<div class="btn-group-vertical">
-			<a href="/shoppingmall/searchproductall" class="btn btn-primary">상품 전체조회</a>
-			<a type="/shoppingmall/searchproductname" class="btn btn-primary">상품 이름으로 검색</a>
-			<a type="/shoppingmall/mypage" class="btn btn-primary">마이페이지</a>
+			<a href="<c:url value="/shoppingmall/searchproductall"/>" class="btn btn-primary">상품 전체조회</a>
+			<a type="<c:url value="/shoppingmall/searchproducname"/>" class="btn btn-primary">상품 이름으로 검색</a>
+			<a type="<c:url value="/shoppingmall/mypage"/>" class="btn btn-primary">마이페이지</a>
 		</div>
 	</ul>
 </div>

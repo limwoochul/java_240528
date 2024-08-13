@@ -10,9 +10,11 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
 import kr.kh.app.dao.PostDAO;
+import kr.kh.app.model.vo.CommentVO;
 import kr.kh.app.model.vo.CommunityVO;
 import kr.kh.app.model.vo.MemberVO;
 import kr.kh.app.model.vo.PostVO;
+import kr.kh.app.model.vo.RecommendVO;
 import kr.kh.app.pagination.Criteria;
 import kr.kh.app.pagination.PageMaker;
 
@@ -153,5 +155,56 @@ public class PostServiceImp implements PostService {
 			e.printStackTrace();
 			return false;
 		}
+	}
+
+	@Override
+	public int insertRecommend(RecommendVO recommend) {
+		if(recommend == null) {
+			throw new RuntimeException();
+		}
+		//기존에 추천 내용을 확인
+		RecommendVO dbRecommend = postDao.selectRecommend(recommend);
+		
+		//없으면 추가 후 추천상태를 리턴
+		if(dbRecommend == null) {
+			postDao.insertRecommend(recommend);
+			return recommend.getRe_state();
+		}
+		//있으면 삭제 
+		postDao.deleteRecommend(dbRecommend.getRe_num());
+		//기존 상태와 새 상태가 같으면(취소)
+		if(dbRecommend.getRe_state() == recommend.getRe_state()) {
+			postDao.deleteRecommend(dbRecommend.getRe_num());
+			return 0;
+		}
+		//있고, 기존 상태와 새 상태가 다르면(변경)
+		postDao.insertRecommend(recommend);
+		return recommend.getRe_state();
+	}
+
+	@Override
+	public RecommendVO getRecommend(int num, MemberVO user) {
+		if(user == null) {
+			return null;
+		}
+		RecommendVO recommend = new RecommendVO(0, num, user.getMe_id());
+		return postDao.selectRecommend(recommend);
+	}
+
+	@Override
+	public List<CommentVO> getCommentList(Criteria cri) {
+		if(cri == null) {
+			return null;
+		}
+		return postDao.selectCommentList(cri);
+	}
+
+	@Override
+	public PageMaker getCommentPageMaker(Criteria cri) {
+		if(cri == null) {
+			return null;
+		}
+		int totalCount = postDao.selectCommentTotalCount(cri);
+		return new PageMaker(totalCount, 2, cri);
 	}
 }

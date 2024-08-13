@@ -5,13 +5,19 @@
 <mapper namespace="kr.kh.app.dao.PostDAO">
 
 	<select id="selectCommunityList" resultType="CommunityVO">
-		select * from community order by co_num;
+		select * from community order by co_num
 	</select>
 	<select id="selectCommunity" resultType="CommunityVO">
 		select * from community where co_num = #{co_num}
 	</select>
 	<select id="selectPostList" resultType="PostVO">
-		select * from post where po_co_num = #{cri.co_num}
+		select post.*, 
+			count(if(re_state=1, re_state, null)) po_up,
+			count(if(re_state=-1, re_state, null)) po_down 
+		from post 
+		LEFT JOIN
+			recommend ON po_num = re_po_num
+		where po_co_num = #{cri.co_num}
 		<if test="cri.type == 'all'">
 		and (po_title like concat('%', #{cri.search},'%') or po_me_id = #{cri.search})
 		</if>
@@ -21,6 +27,7 @@
 		<if test="cri.type == 'id'">
 		and po_me_id = #{cri.search}
 		</if>
+		GROUP BY po_num
 		order by po_num desc
 		limit #{cri.pageStart}, #{cri.perPageNum}
 	</select>
@@ -41,7 +48,16 @@
 		values(#{post.po_co_num}, #{post.po_me_id}, #{post.po_title}, #{post.po_content})
 	</insert>
 	<select id="selectPost" resultType="PostVO">
-		select * from post where po_num = #{po_num}
+		SELECT 
+			post.*, 
+			count(if(re_state=1, re_state, null)) po_up,
+			count(if(re_state=-1, re_state, null)) po_down
+		FROM
+			post
+				LEFT JOIN
+			recommend ON po_num = re_po_num
+		WHERE po_num = #{po_num}
+		GROUP BY po_num; 
 	</select>
 	<update id="updatePostView">
 		update post set po_view = po_view + 1 where po_num = #{po_num}
@@ -57,4 +73,24 @@
 	<delete id="deletePost">
 		delete from post where po_num = #{po_num}
 	</delete>
+	
+	<select id="selectRecommend" resultType="RecommendVO">
+		select * from recommend where re_po_num = #{re.re_po_num} and re_me_id = #{re.re_me_id}
+	</select>
+	<delete id="deleteRecommend">
+		delete from recommend where re_num = #{re_num}
+	</delete>
+	<insert id="insertRecommend">
+		insert into recommend(re_state, re_po_num, re_me_id)
+		values(#{re.re_state}, #{re.re_po_num}, #{re.re_me_id})
+	</insert>
+	
+	<select id="selectCommentList" resultType="CommentVO">
+		select * from comment where cm_po_num = #{cri.po_num}
+		order by cm_ori_num desc, cm_num asc
+		limit #{cri.pageStart}, #{cri.perPageNum}
+	</select>
+	<select id="selectCommentTotalCount" resultType="int">
+		select count(*) from comment where cm_po_num = #{cri.po_num}
+	</select>
 </mapper>

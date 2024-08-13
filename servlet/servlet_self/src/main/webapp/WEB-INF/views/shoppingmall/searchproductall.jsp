@@ -8,18 +8,18 @@
 <title>전체상품조회</title>
 <jsp:include page="/WEB-INF/views/common/head.jsp"/>
 <style type="text/css">
-.list-community{
+.list-shopping{
 	list-style: none; display: flex; flex-wrap: wrap;	
 }
-.item-community{
+.item-shopping{
 	width: 33.33%; height: 80px; box-sizing: border-box; padding: 10px;
 }
-.link-community{
+.link-shopping{
 	display: block; border: 1px solid black; box-sizing: border-box;
 	height: 100%; text-align: center; line-height: 58px; font-size:24px;
 	text-decoration: none; color: black;
 }
-.link-community:hover{
+.link-shopping:hover{
 	text-decoration: none; color: white; background-color: tomato;
 }
 </style>

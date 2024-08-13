@@ -22,8 +22,6 @@ public class SearchProductAll extends HttpServlet {
 		
 		List<CategoryVO> list = productService.getCategoryList();
 		
-		System.out.println(list);
-		
 		request.setAttribute("list", list);
 		request.getRequestDispatcher("/WEB-INF/views/shoppingmall/searchproductall.jsp").forward(request, response);
 	}

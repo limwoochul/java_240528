@@ -6,3 +6,5 @@
 java_lwc/.gitignore
 
 MANIFEST.MF
+
+*.jar

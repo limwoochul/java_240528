@@ -35,7 +35,7 @@
 				<th>제목</th>
 				<th>작성자</th>
 				<th>작성일</th>
-				<th>추천</th>
+				<th>추천/비추천</th>
 				<th>조회수</th>
 			</tr>
 		</thead>
@@ -46,13 +46,23 @@
 					<td>${pm.totalCount - vs.index - pm.cri.pageStart }</td>
 					<!-- 실제 게시글 번호를 배정 -->
 					<!-- <td>${post.po_num}</td> -->
-					<td>${post.po_num}</td>
 					<td>
 						<a href="<c:url value="/post/detail?num=${post.po_num}"/>">${post.po_title}</a>
 					</td>
 					<td>${post.po_me_id}</td>
 					<td><fmt:formatDate value="${post.po_date}" pattern="yyyy-MM-dd HH:mm"/></td>
-					<td>0</td>
+					<td>
+						<c:choose>
+							<c:when test="${post.po_up eq 0 && post.po_down eq 0}">0</c:when>
+							<c:otherwise>
+								${post.po_up}/
+								<c:choose>
+									<c:when test="${post.po_down == 0}">0</c:when>
+									<c:otherwise>-${post.po_down }</c:otherwise>
+								</c:choose>
+							</c:otherwise>
+						</c:choose>
+					</td>
 					<td>${post.po_view}</td>
 				</tr>
 			</c:forEach>
