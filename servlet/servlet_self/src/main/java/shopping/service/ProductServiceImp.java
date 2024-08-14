@@ -11,6 +11,9 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
 import shopping.dao.ProductDAO;
 import shopping.model.vo.CategoryVO;
+import shopping.model.vo.ProductVO;
+import shopping.pagination.Criteria;
+import shopping.pagination.PageMaker;
 
 public class ProductServiceImp implements ProductService {
 
@@ -33,5 +36,27 @@ public class ProductServiceImp implements ProductService {
 	@Override
 	public List<CategoryVO> getCategoryList() {
 		return productDao.selectCategoryList();
+	}
+
+	@Override
+	public CategoryVO getCategory(int cgNum) {
+		return productDao.selectCategory(cgNum);
+	}
+
+	@Override
+	public List<ProductVO> getProductList(Criteria cri) {
+		if(cri == null) {
+			throw new RuntimeException();
+		}
+		return productDao.selectProductList(cri);
+	}
+
+	@Override
+	public PageMaker getPageMaker(Criteria cri, int displayPageNum) {
+		if(cri == null) {
+			throw new RuntimeException();
+		}
+		int totalCount = productDao.selectProductTotalCount(cri);
+		return new PageMaker(totalCount, displayPageNum, cri);
 	}
 }

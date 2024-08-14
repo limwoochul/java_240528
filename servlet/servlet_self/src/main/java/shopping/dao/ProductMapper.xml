@@ -7,5 +7,15 @@
 	<select id="selectCategoryList" resultType="CategoryVO">
 		select * from category order by cg_num
 	</select>
+	<select id="selectCategory" resultType="CategoryVO">
+		select * from category where cg_num = #{cg_num}
+	</select>
+	<select id="selectProductList" resultType="ProductVO">
+		select * from product where pr_cg_num = #{cri.cg_num} order by pr_num
+		limit #{cri.pageStart}, #{cri.perPageNum}
+	</select>
 	
+	<select id="selectProductTotalCount" resultType="int">
+		select count(*) from product where pr_cg_num = #{cri.cg_num}
+	</select>
 </mapper>
