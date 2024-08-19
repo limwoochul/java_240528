@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import kr.kh.app.model.vo.MemberVO;
 import kr.kh.app.model.vo.Person;
+import kr.kh.app.utils.FileUploadUtils;
 
 
 @WebServlet("/")
@@ -21,7 +22,6 @@ public class Main extends HttpServlet {
 	protected void doGet(HttpServletRequest request, 
 			HttpServletResponse response) 
 		throws ServletException, IOException {
-		
 		request.getRequestDispatcher("/WEB-INF/views/main.jsp").forward(request, response);
 	}
 
