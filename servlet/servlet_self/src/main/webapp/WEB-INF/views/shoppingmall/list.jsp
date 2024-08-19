@@ -42,7 +42,6 @@
 				<c:url var="url" value="/shoppingmall/list">
 					<c:param name="cg_num" value="${pm.cri.cg_num}"/>
 					<c:param name="page" value="${pm.startPage-1}"/>
-					<c:param name="type" value="${pm.cri.type}"/>
 					<c:param name="search" value="${pm.cri.search}"/>
 				</c:url>
 				<a class="page-link" href="${url}">이전</a>
@@ -61,7 +60,6 @@
 				<c:url var="url" value="/shoppingmall/list">
 					<c:param name="cg_num" value="${pm.cri.cg_num}"/>
 					<c:param name="page" value="${i}"/>
-					<c:param name="type" value="${pm.cri.type}"/>
 					<c:param name="search" value="${pm.cri.search}"/>
 				</c:url>
 				<a class="page-link" href="${url}">${i}</a>
@@ -72,7 +70,6 @@
 				<c:url var="url" value="/shoppingmall/list">
 					<c:param name="cg_num" value="${pm.cri.cg_num}"/>
 					<c:param name="page" value="${pm.endPage+1}"/>
-					<c:param name="type" value="${pm.cri.type}"/>
 					<c:param name="search" value="${pm.cri.search}"/>
 				</c:url>
 				<a class="page-link" href="${url}">다음</a>
