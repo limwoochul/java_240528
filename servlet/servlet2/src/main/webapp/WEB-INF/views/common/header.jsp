@@ -7,23 +7,52 @@
 <meta charset="UTF-8">
 </head>
 <body>
-	<nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top">
-		<ul class="navbar-nav">
-			<li class="nav-item active">
-				<a class="nav-link" href="<c:url value="/"/>">Home</a>
-			</li>
+<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+	<a class="navbar-brand" href="<c:url value="/"/>">Home</a>
+
+	<ul class="navbar-nav">
+		<li class="nav-item">
+			<a class="nav-link" href="<c:url value="/community"/>">커뮤니티</a>
+		</li>
+		<li class="nav-item dropdown">
+			<a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+				커뮤니티
+			</a>
+			<div class="dropdown-menu" id="community-list">
+			</div>
+		</li>
+		<c:if test="${user == null}">
 			<li class="nav-item">
 				<a class="nav-link" href="<c:url value="/signup"/>">회원가입</a>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link" href="#">Link</a>
+				<a class="nav-link" href="<c:url value="/login"/>">로그인</a>
 			</li>
+		</c:if>
+		<c:if test="${user != null }">
 			<li class="nav-item">
-				<a class="nav-link disabled" href="#">Disabled</a>
+				<a class="nav-link" href="<c:url value="/logout"/>">로그아웃</a>
 			</li>
-		</ul>
-	</nav>
-	<div class="container-fluid" style="margin-top:80px">
-	</div>
+		</c:if>
+	</ul>
+</nav>
+<script type="text/javascript">
+	$.ajax({
+		url : '<c:url value="/community"/>',
+		method : 'post',
+		success : function(data){
+			var str = '';
+			var list = data.list;
+			
+			for(co of list){
+				str += `<a class="dropdown-item" href="<c:url value="/post/list?co_num=\${co.co_num}"/>">\${co.co_name}</a>`;
+			}
+			$("#community-list").html(str);
+		},
+		error : function(xhr){
+			console.log(xhr);
+		}
+	});
+</script>
 </body>
 </html>
