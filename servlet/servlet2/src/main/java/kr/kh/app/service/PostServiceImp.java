@@ -13,6 +13,7 @@ import kr.kh.app.Pagination.Criteria;
 import kr.kh.app.Pagination.PageMaker;
 import kr.kh.app.dao.PostDAO;
 import kr.kh.app.model.vo.CommunityVO;
+import kr.kh.app.model.vo.MemberVO;
 import kr.kh.app.model.vo.PostVO;
 
 public class PostServiceImp implements PostService{
@@ -59,4 +60,52 @@ public class PostServiceImp implements PostService{
 		int totalCount = postDao.selectTotalCount(cri);
 		return new PageMaker(totalCount, 5, cri);
 	}
+
+	@Override
+	public PostVO getPost(String po_num) {
+		return postDao.selectPost(po_num);
+	}
+
+	@Override
+	public void updatePostView(String po_num) {
+		postDao.updatePostView(po_num);
+	}
+
+	@Override
+	public boolean insertPost(PostVO post) {
+		if(post == null) {
+			return false;
+		}
+		if(post.getPo_title() == null || post.getPo_title().trim().length() == 0) {
+			return false;
+		}
+		try {
+			return postDao.insertPost(post);			
+		} catch(Exception e) {
+			return false;
+		}
+		
+	}
+
+	@Override
+	public boolean updatePost(PostVO post, MemberVO user) {
+		if(post == null) {
+			return false;
+		}
+		if(post.getPo_title() == null || post.getPo_title().trim().length() == 0) {
+			return false;
+		}
+		PostVO dbPost = postDao.selectPost(post.getPo_num()+"");
+		if(dbPost == null || user == null || !dbPost.getPo_me_id().equals(user.getMe_id())) {
+			return false;
+		}
+		
+		
+		if(postDao.updatePost(post)) {
+			return true;
+		}
+		
+		return false;
+	}
+
 }

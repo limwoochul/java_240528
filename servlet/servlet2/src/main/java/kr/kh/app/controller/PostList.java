@@ -41,7 +41,6 @@ public class PostList extends HttpServlet {
 		//서비스에게 객체를 주면서 게시글 목록을 가져오라고 요청
 		List<PostVO> list = postService.getPostList(cri);
 		
-		
 		//4. 현재 페이지 정보를 이용해서 페이지네이션을 가져옴
 		PageMaker pm = postService.getPageMaker(cri);
 		
