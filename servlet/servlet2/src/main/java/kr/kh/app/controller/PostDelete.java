@@ -9,28 +9,30 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import kr.kh.app.model.vo.MemberVO;
-import kr.kh.app.service.MemberService;
-import kr.kh.app.service.MemberServiceImp;
+import kr.kh.app.service.PostService;
+import kr.kh.app.service.PostServiceImp;
 
-@WebServlet("/logout")
-public class Logout extends HttpServlet {
+@WebServlet("/post/delete")
+public class PostDelete extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private MemberService memberService = new MemberServiceImp();
-	
+	private PostService postService = new PostServiceImp();
+       
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//회원의 쿠키 정보를 업데이트 null로
-		MemberVO user = (MemberVO)request.getSession().getAttribute("user");
-		if(user != null) {
-			user.setMe_cookie(null);
-			memberService.updateMemberCookie(user);
-		}
-
-		request.getSession().removeAttribute("user");
-
-		request.setAttribute("msg", "로그아웃을 했습니다.");
-		request.setAttribute("url", "/");
-		request.getRequestDispatcher("/WEB-INF/views/message.jsp").forward(request, response);
 		
+		String po_num = request.getParameter("po_num");
+		MemberVO user = (MemberVO)request.getSession().getAttribute("user");
+		
+		int co_num = postService.deletePost(po_num, user);
+		
+		if(co_num != 0) {
+			request.setAttribute("msg", "게시글을 삭제했습니다.");
+			request.setAttribute("url", "/post/list?co_num="+co_num);
+		} else {
+			request.setAttribute("msg", "게시글을 삭제하지 못했습니다.");
+			request.setAttribute("url", "/post/detail?po_num="+po_num);
+		}
+		request.getRequestDispatcher("/WEB-INF/views/message.jsp").forward(request, response);
 	}
+
 
 }
