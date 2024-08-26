@@ -4,7 +4,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Insert title here</title>
 	<meta charset="UTF-8">
 	<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/additional-methods.min.js"></script>
