@@ -8,12 +8,12 @@
 <body>
 <nav class="navbar navbar-expand-sm bg-info navbar-dark">
 	  <!-- Brand -->
-	<a class="navbar-brand" href="#">Logo</a>
+	<a class="navbar-brand" href="/">Home</a>
 	
 	<!-- Links -->
 	<ul class="navbar-nav">
 		<li class="nav-item">
- 			<a class="nav-link" href="#">Link 1</a>
+ 			<a class="nav-link" href="<c:url value="/signup"/>">회원가입</a>
 		</li>
 		<li class="nav-item">
 			<a class="nav-link" href="#">Link 2</a>
