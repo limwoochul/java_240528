@@ -4,8 +4,4 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.kh.spring2.dao.MemberDAO">
   
-  <select id="getEmail" resultType="String">
-    select me_email from member where me_id = #{me_id}
-  </select>
-  
 </mapper>
