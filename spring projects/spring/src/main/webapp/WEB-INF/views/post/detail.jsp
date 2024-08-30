@@ -194,7 +194,7 @@
 		getCommentList2(cri);		
 	})
 	
-	$('.btn-insert').click(function(){
+	$(document).on('click', '.btn-insert', function(){
 		//로그인 확인
 		if(alertLogin()){
 			return;
