@@ -93,11 +93,18 @@ public class CommentController {
 	}
 	
 	@ResponseBody
-	@PostMapping("/delete3")//또는 @PostMapping("경로")
-	//리턴타입 꼭 Object일 필요는 없음. List로 보내고 싶으면 List로 수정해도 상관없음 
-	public Object 메서드명(@RequestParam int cm_num, HttpSession session){
+	@PostMapping("/delete3")
+	public boolean delete3(@RequestParam int cm_num, HttpSession session){
 		MemberVO user = (MemberVO)session.getAttribute("user");
 		boolean result = commentService.deleteComment(cm_num, user);
+		return result;
+	}
+	
+	@ResponseBody
+	@PostMapping("/update")
+	public boolean update(@RequestBody CommentVO comment, HttpSession session){
+		MemberVO user = (MemberVO)session.getAttribute("user");
+		boolean result = commentService.updateComment(comment, user);
 		return result;
 	}
 }
