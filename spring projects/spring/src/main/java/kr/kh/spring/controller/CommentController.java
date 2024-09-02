@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import kr.kh.spring.model.vo.CommentVO;
@@ -61,5 +62,42 @@ public class CommentController {
 		model.addAttribute("list", list);
 		model.addAttribute("pm", pm);
 		return "comment/pagination";
+	}
+	
+	@ResponseBody
+	@PostMapping("/delete")
+	public boolean delete(Model model, @RequestBody String cm_num, HttpSession session) {
+		MemberVO user = (MemberVO)session.getAttribute("user");		
+		
+		return true;
+	}
+	
+	@ResponseBody
+	@PostMapping("/delete1")
+	public Map<String, Object> delete1(@RequestBody CommentVO comment, HttpSession session){
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		MemberVO user = (MemberVO)session.getAttribute("user");
+		boolean result = commentService.deleteComment(comment, user);
+		map.put("res", result);
+		return map;
+	}
+	
+	@ResponseBody
+	@PostMapping("/delete2")
+	public Map<String, Object> delete2(@RequestParam int cm_num, HttpSession session){
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		MemberVO user = (MemberVO)session.getAttribute("user");
+		boolean result = commentService.deleteComment(cm_num, user);
+		map.put("res", result);
+		return map;
+	}
+	
+	@ResponseBody
+	@PostMapping("/delete3")//또는 @PostMapping("경로")
+	//리턴타입 꼭 Object일 필요는 없음. List로 보내고 싶으면 List로 수정해도 상관없음 
+	public Object 메서드명(@RequestParam int cm_num, HttpSession session){
+		MemberVO user = (MemberVO)session.getAttribute("user");
+		boolean result = commentService.deleteComment(cm_num, user);
+		return result;
 	}
 }
