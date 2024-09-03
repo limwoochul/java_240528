@@ -40,7 +40,7 @@ public class AdminController {
 		return "/main/message";
 	}
 	
-	@GetMapping("/community/delete")
+	@RequestMapping("/community/delete")
 	public String communityDelete(Model model, int co_num) {
 		
 		
@@ -54,7 +54,7 @@ public class AdminController {
 		return "/main/message";
 	}
 	
-	@PostMapping("/community/update")
+	@RequestMapping("/community/update")
 	public String communityUpdate(Model model, CommunityVO community) {
 		
 		
