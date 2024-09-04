@@ -6,12 +6,6 @@
 <head>
 </head>
 <body>
-<script type="text/javascript">
-	var msg = '${msg}';
-	if(msg != ''){
-		alert(msg);
-	}
-	location.href = '<c:url value="${url}"/>';
-</script>
+	<h1>홈페이지에 문제가 있습니다. 관리자에게 문의하세요.</h1>
 </body>
 </html>
