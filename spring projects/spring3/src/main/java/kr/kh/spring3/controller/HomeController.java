@@ -1,5 +1,7 @@
 package kr.kh.spring3.controller;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -38,11 +40,32 @@ public class HomeController {
 		if(memberService.signup(member)) {
 			message = new MessageDTO("/" , "회원 가입에 성공했습니다.");
 		} else {
-			message = new MessageDTO("/guest/signup" , "아이디 또는 이메일이 중복되었습니다..");
+			message = new MessageDTO("/guest/signup" , "아이디 또는 이메일이 중복되었습니다.");
 		}
 		model.addAttribute("message", message);
 		return "/main/message";
 	}
 	
+	@GetMapping("/guest/login")
+	public String guestlogin(Model model) {
+		log.info("/guest/login:get");
+		return "/member/login";
+	}
+	@PostMapping("/guest/login")
+	public String guestLoginPost(Model model, MemberVO member, HttpSession session) {
+		log.info("/guest/login:post");
+		MessageDTO message;
+		MemberVO user = memberService.login(member);
+		if(user != null) {
+			message = new MessageDTO("/", "로그인에 성공했습니다.");
+			session.removeAttribute("id");
+		} else {
+			message = new MessageDTO("/guest/login", "로그인에 실패했습니다.");
+			session.setAttribute("id", member.getMe_id());
+		}
+		model.addAttribute("user", user);
+		model.addAttribute("message", message);
+		return "/main/message";
+	}
 	
 }
