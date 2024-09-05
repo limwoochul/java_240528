@@ -10,11 +10,11 @@
 		<ul class="navbar-nav">
 			<li class="nav-item">
 				<a class="navbar-brand p-0" href="#">
-					<img src="<c:url value="/resources/img/dog.jpg"/>" alt="logo" style="width:40px;">
+					<img src="<c:url value="/resources/img/bird.jpg"/>" alt="logo" style="width:40px;">
 				</a>					
 			</li>			
 			<li class="nav-item">
-				<a class="nav-link" href="#">Link 1</a>
+				<a class="nav-link" href="<c:url value="/post/list/0"/>">커뮤니티</a>
 			</li>
 			<li class="nav-item">
 				<a class="nav-link" href="#">Link 2</a>

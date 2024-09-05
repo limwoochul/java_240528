@@ -78,4 +78,6 @@ public class HomeController {
 		model.addAttribute("message", message);
 		return "/main/message";
 	}
+	
+
 }
