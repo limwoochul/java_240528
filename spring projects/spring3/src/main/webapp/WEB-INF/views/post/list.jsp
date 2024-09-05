@@ -40,7 +40,7 @@
 					<tr>
 						<td>${po.po_num}</td>
 						<td>
-							<a href="">${po.po_title}</a>
+							<a href="<c:url value="/post/detail/${po.po_num}"/>">${po.po_title}</a>
 						</td>
 						<td>
 							<c:url var="url" value="/post/list/${pm.cri.co_num}">

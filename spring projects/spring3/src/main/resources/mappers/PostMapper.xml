@@ -34,4 +34,10 @@
 			</otherwise>
 		</choose>
 	</select>
+	<update id="updatePostView">
+		update post set po_view = po_view + 1 where po_num = #{po_num}
+	</update>
+	<select id="selectPost" resultType="PostVO">
+		select * from post where po_num = #{po_num}
+	</select>
 </mapper>

@@ -37,5 +37,13 @@ public class PostService {
 		return new PageMaker(2, cri, totalCount);
 	}
 	
+	public void updatePostView(int po_num) {
+		postDao.updatePostView(po_num);		
+	}
+
+	public PostVO getPost(int po_num) {
+		return postDao.selectPost(po_num);
+	}
+	
     
 }

@@ -41,4 +41,18 @@ public class PostController {
 		model.addAttribute("pm", pm);
 		return "/post/list";
 	}
+	
+	@GetMapping("/detail/{po_num}")
+	public String detail(Model model, @PathVariable("po_num")int po_num) {
+		log.info("/post/detail/"+po_num+":get");
+		
+		postService.updatePostView(po_num);
+		
+		PostVO post = postService.getPost(po_num);
+		
+		model.addAttribute("post", post);
+		
+		return "/post/detail";
+	}
+	
 }
