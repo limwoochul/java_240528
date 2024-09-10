@@ -17,7 +17,8 @@ function App() {
       {/* <ButtonBox /> */}
       {/* <ButtonBox2 /> */}
       {/* <ButtonBox3 /> */}
-      <Input1 />
+      {/* <Input1 /> */}
+      <Input2 />
     </div>
   );
 }
