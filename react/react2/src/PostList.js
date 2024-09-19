@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 function PostList(){
 
@@ -45,7 +45,9 @@ function PostList(){
 							return(
 								<tr>
 									<td>{item.po_num}</td>
-									<td>{item.po_title}</td>
+									<td>
+										<Link to={"/post/detail/"+item.po_num}>{item.po_title}</Link>
+									</td>
 									<td>{item.po_me_id}</td>
 									<td>{item.date}</td>
 									<td>{item.po_view}</td>

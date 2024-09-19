@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import kr.kh.spring3.model.dto.Person;
 import kr.kh.spring3.model.vo.CommunityVO;
+import kr.kh.spring3.model.vo.FileVO;
 import kr.kh.spring3.model.vo.PostVO;
 import kr.kh.spring3.pagination.PageMaker;
 import kr.kh.spring3.pagination.PostCriteria;
@@ -74,6 +75,11 @@ public class ReactController {
 		@RequestBody Person person) {
 		System.out.println(person);
 		return "OK";
+	}
+	
+	@GetMapping("/post/detail/{po_num}")
+	public PostVO postDetail(@PathVariable("po_num")int po_num) {
+		return postService.getPost(po_num);
 	}
 }
 
