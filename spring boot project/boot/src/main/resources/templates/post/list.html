@@ -28,7 +28,10 @@
 			<tbody>
 				<tr th:each="item : ${list}">
 					<td th:text="${item.po_num}"></td>
-					<td th:text="${item.po_title}"></td>
+					<td>
+						<a 	th:text="${item.po_title}" 
+							th:href="@{/post/detail/{po_num}(po_num=${item.po_num}, page=${pm.cri.page})}"></a>
+					</td>
 					<td th:text="${item.po_me_id}"></td>
 					<td th:text="${item.po_view}"></td>
 				</tr>
@@ -53,8 +56,6 @@
 					th:href="@{/post/list/{co_num}(page=*{endPage+1}, co_num=*{cri.co_num})}">다음</a>
 			</li>
 		</ul>	
-		<p th:text="${pm}">
-		<p th:text="${cri}">		
 	</main>
 </body>
 </html>

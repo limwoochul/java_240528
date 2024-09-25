@@ -12,4 +12,6 @@ public interface PostDAO {
 	List<CommunityVO> selectCommunityList();
 
 	int selectTotalCount(PostCriteria cri);
+
+	PostVO selectPost(int po_num);
 }

@@ -38,4 +38,13 @@ public class PostController {
 		
 		return "post/list";
 	}
+	
+	@GetMapping("/post/detail/{po_num}")
+	public String postDetail(Model model, @PathVariable("po_num")int po_num, int page) {
+		PostVO post = postService.getPost(po_num);
+		
+		model.addAttribute("post", post);
+		model.addAttribute("page", page);
+		return "post/detail";
+	}
 }
