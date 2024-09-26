@@ -61,6 +61,8 @@
 						th:href="@{/post/list/{co_num}(page=*{endPage+1}, co_num=*{cri.co_num})}">다음</a>
 				</li>
 			</ul>
+			<a class="btn btn-outline-dark"
+				th:href="@{/post/insert/{co_num}(co_num=${pm.cri.co_num})}">게시글 등록</a>
 		</div>	
 	</main>
 </body>
