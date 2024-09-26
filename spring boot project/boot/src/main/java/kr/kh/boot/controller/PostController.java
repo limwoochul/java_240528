@@ -56,7 +56,7 @@ public class PostController {
 	}
 	
 	@PostMapping("/post/insert")
-	public String postPostInsert(PostVO post) {
+	public String postInsertPost(PostVO post) {
 		if(postService.insertPost(post)) {
 			System.out.println("성공");
 			return "redirect:/post/list/"+post.getPo_co_num();
@@ -64,7 +64,32 @@ public class PostController {
 			System.out.println("실패");
 			return "redirect:/post/insert/"+post.getPo_co_num();
 		}
-		
-		
+	}
+	
+	@GetMapping("/post/update/{po_num}")
+	public String postUpdate(Model model, @PathVariable int po_num, int page) {
+		PostVO post = postService.getPost(po_num);
+		model.addAttribute("post", post);
+		model.addAttribute("page", page);
+		return "post/update";
+	}
+	
+	@PostMapping("/post/update")
+	public String postUpdatePost(PostVO post, int page) {
+		if(postService.updatePost(post)) {
+			return "redirect:/post/detail/"+post.getPo_num()+"?page="+page;
+		} else {
+			return "redirect:/post/update/"+post.getPo_num()+"?page="+page;
+		}
+	}
+	
+	@GetMapping("/post/delete/{co_num}/{po_num}")
+	public String postDelete(Model model, @PathVariable int po_num, @PathVariable int co_num) {
+		PostVO post = postService.getPost(po_num);
+		model.addAttribute("post", post);
+		if(postService.deletePost(po_num)) {
+			return "redirect:/post/list/"+co_num;
+		}
+		return "redirect:/post/detail/"+po_num;
 	}
 }

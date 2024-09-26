@@ -38,9 +38,9 @@
 					th:utext="*{po_content}" style="min-height : 300px; height : auto">
 				</div>
 			</div>
-			<a 	class="btn btn-outline-info"
-				th:href="@{/post/list/{co_num}(co_num=*{po_co_num}, page=${page})}"
-				>목록</a>
+			<a class="btn btn-outline-info" th:href="@{/post/list/{co_num}(co_num=*{po_co_num})}">목록</a>
+			<a class="btn btn-outline-warning" th:href="@{/post/update/{po_num}(po_num=*{po_num}, page=${page})}">수정</a>
+			<a class="btn btn-outline-danger" th:href="@{/post/delete/{co_num}/{po_num}(po_num=*{po_num}, co_num=*{po_co_num})}">삭제</a>
 		</div>
 	</main>
 </body>

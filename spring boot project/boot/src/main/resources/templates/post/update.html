@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html 
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" 
+	layout:decorate="~{layout/layout.html}">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<main layout:fragment="content">
+		<h1>게시글 수정</h1>
+		<form method="post" th:action="@{/post/update/{po_num}(po_num=*{po_num})}" th:object="${post}">
+			<input type="hidden" th:field="*{po_num}"/>
+			<input type="hidden" th:field="${page}"/>
+			<div class="form-group">
+				<label>제목</label>
+				<input type="text" class="form-control" th:field="*{po_title}">
+			</div>
+			<div class="form-group">
+				<label>작성자</label>
+				<input type="text" class="form-control" th:field="*{po_me_id}" readonly>
+			</div>
+			<div class="form-group">
+				<label>내용</label>
+				<textarea class="form-control" style="min-height : 300px; height : auto" th:field="*{po_content}"></textarea>
+			</div>
+			<button type="submit" class="btn btn-outline-warning col-12">게시글 수정</button>
+		</form>
+	</main>
+</body>
+</html>
