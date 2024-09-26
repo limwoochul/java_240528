@@ -33,7 +33,6 @@ public class PostController {
 		
 		model.addAttribute("list", list);
 		model.addAttribute("communities", communities);
-		model.addAttribute("cri", cri);
 		model.addAttribute("pm", pm);
 		
 		return "post/list";
